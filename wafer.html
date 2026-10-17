@@ -20,6 +20,7 @@
       <div class="nav-label">WORKSPACE</div>
       <nav aria-label="專案導覽">
         <a href="./"><span>◈</span> 企業總覽</a>
+        <a href="shift.html"><span>▦</span> 3D 工程師值班</a>
         <a class="nav-active" href="#station"><span>◉</span> 晶圓檢測</a>
         <a href="#images"><span>◫</span> 影像比對</a>
         <a href="#wafer-map"><span>◎</span> 缺陷位置圖</a>
@@ -56,7 +57,7 @@
         <section class="panel image-section" id="images"><div class="panel-head"><div><div class="section-kicker">PIXEL EVIDENCE</div><h2>晶圓影像比對與疑似缺陷</h2></div><span class="step-pill">02 / REVIEW</span></div><div class="image-grid"><div class="image-card"><div class="image-label"><strong>同製程合格參考圖</strong><span>拖曳框選晶圓 ROI</span></div><div class="canvas-wrap"><canvas id="referenceCanvas" aria-label="合格晶圓參考圖，可拖曳選取檢查範圍"></canvas><div class="empty-state" id="referenceEmpty">上傳參考圖，或載入合成示範</div></div></div><div class="image-card"><div class="image-label"><strong>待檢晶圓與疑似差異</strong><span>紅框：人工覆核</span></div><div class="canvas-wrap"><canvas id="sampleCanvas" aria-label="待檢晶圓及差異區域"></canvas><div class="empty-state" id="sampleEmpty">檢查結果會顯示在這裡</div></div></div></div><div class="alignment-strip"><span id="alignment">位置校正：—</span><span id="brightness">亮度補償：—</span><span id="roiInfo">圓形 ROI：預設內部 90%</span><span id="imageDimensions">檢查解析度：—</span></div><div id="statusLine" class="status-line" role="status" aria-live="polite">請先載入合格晶圓與待檢影像。</div></section>
         <section class="panel wafer-map-section" id="wafer-map"><div class="panel-head"><div><div class="section-kicker">WAFER LOCATION VIEW</div><h2>缺陷相對位置圖</h2></div><span class="step-pill">03 / LOCATION</span></div><div class="wafer-map-layout"><canvas id="waferMapCanvas" width="420" height="420" aria-label="晶圓上疑似差異的相對位置"></canvas><div class="wafer-map-copy"><strong id="mapSummary">等待檢查影像</strong><p>紅點依照片中的差異框中心，映射到圓形示意圖。此圖只顯示相對位置；未做晶粒對位、缺陷分類、良率推估或物理尺寸量測。</p><p>面試時可用它討論：缺陷是否沿邊緣集中？是否可能來自光源、對焦或製程漂移？仍須原始影像及設備資料驗證。</p></div></div></section>
         <section class="panel results-section" id="results"><div class="panel-head"><div><div class="section-kicker">BATCH LOG</div><h2>本次檢查紀錄</h2></div><div class="export-actions"><button id="exportCsv" type="button" disabled>匯出 CSV</button><button id="exportJson" type="button" disabled>匯出 JSON</button></div></div><div class="table-wrap"><table><thead><tr><th>序號</th><th>檔名</th><th>判定</th><th>疑似區域</th><th>異常像素</th><th>平移校正</th></tr></thead><tbody id="batchRows"><tr><td colspan="6" class="table-empty">尚無檢查紀錄。先試試「微粒示範」。</td></tr></tbody></table></div><p class="results-note">「未見異常」只表示與同製程參考圖在目前門檻下沒有足夠差異；不能當成晶圓良率、產品規格或出貨判定。請用已標註的真實樣本校準並由人員覆核。</p></section>
-        <footer><span>FLOWTWIN WAFER · SYNTHETIC OPTICAL REVIEW</span><span><a href="./">企業總覽 ↗</a>　|　<a href="WAFER_COURSE.md">晶圓檢測課程 ↗</a>　|　<a href="assembly.html">一般產品檢查 ↗</a>　|　<a href="tracking.html">跨鏡頭追蹤 ↗</a>　|　<a href="https://github.com/a25253614611/factory-vision-twin">GitHub ↗</a></span></footer>
+        <footer><span>FLOWTWIN WAFER · SYNTHETIC OPTICAL REVIEW</span><span><a href="./">企業總覽 ↗</a>　|　<a href="shift.html">3D 工程師值班 ↗</a>　|　<a href="WAFER_COURSE.md">晶圓檢測課程 ↗</a>　|　<a href="assembly.html">一般產品檢查 ↗</a>　|　<a href="tracking.html">跨鏡頭追蹤 ↗</a>　|　<a href="https://github.com/a25253614611/factory-vision-twin">GitHub ↗</a></span></footer>
       </div>
     </main>
   </div>

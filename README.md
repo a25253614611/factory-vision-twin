@@ -1,6 +1,10 @@
 # FlowTwin Enterprise｜半導體企業流程與晶圓視覺檢查模擬
 
-**[開啟企業總覽](https://a25253614611.github.io/factory-vision-twin/)** · [公司層級課程](ENTERPRISE_COURSE.md) · [晶圓檢測工作台](https://a25253614611.github.io/factory-vision-twin/wafer.html) · [晶圓檢測 7 天課](WAFER_COURSE.md) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+**[開啟企業總覽](https://a25253614611.github.io/factory-vision-twin/)** · **[玩 3D 工程師值班](https://a25253614611.github.io/factory-vision-twin/shift.html)** · [值班遊戲 7 天課](SHIFT_COURSE.md) · [公司層級課程](ENTERPRISE_COURSE.md) · [晶圓檢測工作台](https://a25253614611.github.io/factory-vision-twin/wafer.html) · [晶圓檢測 7 天課](WAFER_COURSE.md) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+
+## 3D 光學檢查工程師值班（可玩版本）
+
+在原創 Three.js 無塵室中控制工程師，走訪載具交接、製程履歷、AOI、品質處置與交班五個站點。可用 WASD／方向鍵、螢幕方向按鈕，或點選站點自動前往。三種合成情境為疑似微粒、照明波動與正常批次；AOI 使用本專案既有的影像比對核心實際運算，再由玩家決定暫停或放行，最後下載交班 JSON。約三分鐘可完成一次值班。此作品沒有複製 [fab24hr](https://fab24hr.com/) 的程式或素材，場景、人物與設備均由程式自行建模；現場參數和程序都是虛構的。詳見[每天兩小時的 7 天課程](SHIFT_COURSE.md)。
 
 ## 公司層級展示
 
