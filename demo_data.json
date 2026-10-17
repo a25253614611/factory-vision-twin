@@ -1,0 +1,2721 @@
+{
+  "metadata": {
+    "title": "FlowTwin | 跨鏡頭在製品追蹤",
+    "seed": 71,
+    "source": "合成事件；不含真實相機推論或工廠資料",
+    "item_count": 12,
+    "latency_note": "延遲為情境假設值，非硬體量測"
+  },
+  "scenarios": {
+    "normal": {
+      "observations": {
+        "items": [
+          {
+            "id": "WIP-01",
+            "start": 4.0,
+            "arrival": 11.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-02",
+            "start": 7.0,
+            "arrival": 15.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-03",
+            "start": 10.0,
+            "arrival": 18.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-04",
+            "start": 13.0,
+            "arrival": 20.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-05",
+            "start": 16.0,
+            "arrival": 24.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-06",
+            "start": 19.0,
+            "arrival": 27.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-07",
+            "start": 22.0,
+            "arrival": 29.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-08",
+            "start": 25.0,
+            "arrival": 33.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-09",
+            "start": 28.0,
+            "arrival": 36.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-10",
+            "start": 31.0,
+            "arrival": 38.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-11",
+            "start": 34.0,
+            "arrival": 42.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-12",
+            "start": 37.0,
+            "arrival": 45.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          }
+        ],
+        "camera_a": [
+          {
+            "camera": "A",
+            "local_id": "A-01",
+            "global_id": "WIP-01",
+            "time": 4.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.177239,
+              0.117049,
+              -0.489692,
+              0.479408,
+              0.318283,
+              0.496159,
+              -0.232831,
+              -0.298552
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-02",
+            "global_id": "WIP-02",
+            "time": 7.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.509239,
+              0.546711,
+              0.186744,
+              -0.287049,
+              -0.405734,
+              -0.291497,
+              0.269563,
+              0.013009
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-03",
+            "global_id": "WIP-03",
+            "time": 10.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.037907,
+              -0.266418,
+              -0.599266,
+              0.372337,
+              0.18333,
+              0.182209,
+              0.298877,
+              0.523168
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-04",
+            "global_id": "WIP-04",
+            "time": 13.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.355561,
+              -0.049736,
+              0.585659,
+              -0.302406,
+              0.0569,
+              -0.291089,
+              -0.022097,
+              0.588245
+            ],
+            "truth_id": "WIP-04",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-05",
+            "global_id": "WIP-05",
+            "time": 16.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.104819,
+              -0.290859,
+              -0.044218,
+              -0.39397,
+              -0.745939,
+              0.063704,
+              0.243598,
+              -0.35899
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-06",
+            "global_id": "WIP-06",
+            "time": 19.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.360777,
+              0.419456,
+              0.107994,
+              0.594833,
+              -0.154723,
+              -0.076806,
+              0.000293,
+              -0.550085
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-07",
+            "global_id": "WIP-07",
+            "time": 22.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.170956,
+              0.459483,
+              -0.017753,
+              -0.487248,
+              -0.438097,
+              0.367855,
+              -0.388556,
+              -0.224679
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-08",
+            "global_id": "WIP-08",
+            "time": 25.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.636023,
+              -0.307929,
+              0.390582,
+              0.341985,
+              0.203565,
+              0.272369,
+              -0.296842,
+              0.146
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-09",
+            "global_id": "WIP-09",
+            "time": 28.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.597241,
+              0.409995,
+              0.62079,
+              0.095943,
+              0.061667,
+              -0.272568,
+              0.064621,
+              0.077619
+            ],
+            "truth_id": "WIP-09",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-10",
+            "global_id": "WIP-10",
+            "time": 31.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.21506,
+              0.038969,
+              -0.416475,
+              0.169018,
+              -0.374649,
+              -0.581464,
+              0.476077,
+              -0.202655
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-11",
+            "global_id": "WIP-11",
+            "time": 34.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.108231,
+              -0.311273,
+              -0.40889,
+              0.449356,
+              0.381214,
+              0.466562,
+              -0.396882,
+              0.057419
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-12",
+            "global_id": "WIP-12",
+            "time": 37.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.417638,
+              -0.466476,
+              -0.247939,
+              -0.224545,
+              0.360438,
+              0.411257,
+              0.446205,
+              -0.071769
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ],
+        "camera_b": [
+          {
+            "camera": "B",
+            "local_id": "B-21",
+            "time": 11.65,
+            "confidence": 0.91,
+            "embedding": [
+              -0.176567,
+              0.117972,
+              -0.489655,
+              0.479147,
+              0.317228,
+              0.492158,
+              -0.232065,
+              -0.298026
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-22",
+            "time": 15.0,
+            "confidence": 0.91,
+            "embedding": [
+              0.510415,
+              0.55,
+              0.189734,
+              -0.287636,
+              -0.40558,
+              -0.291175,
+              0.269086,
+              0.013967
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP1",
+            "time": 18.2,
+            "confidence": 0.43,
+            "embedding": [
+              -0.28688409852066726,
+              -0.056430351397292446,
+              0.31771540248099356,
+              0.2580777846310817,
+              -0.5023427600701394,
+              -0.3037003203928325,
+              -0.4585717167731424,
+              -0.4382872995394155
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-23",
+            "time": 18.35,
+            "confidence": 0.91,
+            "embedding": [
+              -0.032874,
+              -0.261654,
+              -0.599098,
+              0.370936,
+              0.181075,
+              0.182786,
+              0.298303,
+              0.525459
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-24",
+            "time": 20.65,
+            "confidence": 0.91,
+            "embedding": [
+              -0.358435,
+              -0.052988,
+              0.583598,
+              -0.303642,
+              0.056617,
+              -0.289954,
+              -0.020669,
+              0.590572
+            ],
+            "truth_id": "WIP-04",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-25",
+            "time": 24.0,
+            "confidence": 0.91,
+            "embedding": [
+              0.101896,
+              -0.288145,
+              -0.045443,
+              -0.396378,
+              -0.743254,
+              0.066558,
+              0.243197,
+              -0.362053
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-26",
+            "time": 27.35,
+            "confidence": 0.91,
+            "embedding": [
+              0.35853,
+              0.419172,
+              0.10839,
+              0.592262,
+              -0.153229,
+              -0.076906,
+              -0.000464,
+              -0.547356
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-27",
+            "time": 29.65,
+            "confidence": 0.91,
+            "embedding": [
+              0.17296,
+              0.456189,
+              -0.017227,
+              -0.486994,
+              -0.436266,
+              0.366244,
+              -0.38597,
+              -0.22118
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-28",
+            "time": 33.0,
+            "confidence": 0.91,
+            "embedding": [
+              -0.639037,
+              -0.30746,
+              0.392343,
+              0.345224,
+              0.206107,
+              0.273519,
+              -0.299288,
+              0.146347
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP2",
+            "time": 33.2,
+            "confidence": 0.43,
+            "embedding": [
+              -0.5336566812077164,
+              0.24638628034700552,
+              -0.3230272714880983,
+              0.17564340218642374,
+              0.3597432194043721,
+              -0.3751079009427122,
+              -0.27560596116715075,
+              -0.4162059075920551
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-29",
+            "time": 36.35,
+            "confidence": 0.91,
+            "embedding": [
+              0.592675,
+              0.410149,
+              0.618617,
+              0.095858,
+              0.060316,
+              -0.26845,
+              0.063483,
+              0.079463
+            ],
+            "truth_id": "WIP-09",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-30",
+            "time": 38.65,
+            "confidence": 0.91,
+            "embedding": [
+              0.212086,
+              0.041527,
+              -0.417106,
+              0.170305,
+              -0.376118,
+              -0.585556,
+              0.475747,
+              -0.201331
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-31",
+            "time": 42.0,
+            "confidence": 0.91,
+            "embedding": [
+              0.110464,
+              -0.308661,
+              -0.407029,
+              0.447716,
+              0.380968,
+              0.469966,
+              -0.39609,
+              0.062116
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-32",
+            "time": 45.35,
+            "confidence": 0.91,
+            "embedding": [
+              0.414708,
+              -0.464239,
+              -0.24253,
+              -0.225519,
+              0.361023,
+              0.409078,
+              0.443358,
+              -0.072467
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ]
+      },
+      "modes": {
+        "baseline": {
+          "matches": [
+            {
+              "camera_a": "A-01",
+              "camera_b": "B-21",
+              "global_id": "WIP-01",
+              "score": 0.004
+            },
+            {
+              "camera_a": "A-02",
+              "camera_b": "B-22",
+              "global_id": "WIP-02",
+              "score": 0.005
+            },
+            {
+              "camera_a": "A-03",
+              "camera_b": "B-23",
+              "global_id": "WIP-03",
+              "score": 0.008
+            },
+            {
+              "camera_a": "A-04",
+              "camera_b": "B-24",
+              "global_id": "WIP-04",
+              "score": 0.006
+            },
+            {
+              "camera_a": "A-05",
+              "camera_b": "B-25",
+              "global_id": "WIP-05",
+              "score": 0.007
+            },
+            {
+              "camera_a": "A-06",
+              "camera_b": "B-26",
+              "global_id": "WIP-06",
+              "score": 0.005
+            },
+            {
+              "camera_a": "A-07",
+              "camera_b": "B-27",
+              "global_id": "WIP-07",
+              "score": 0.006
+            },
+            {
+              "camera_a": "A-08",
+              "camera_b": "B-28",
+              "global_id": "WIP-08",
+              "score": 0.006
+            },
+            {
+              "camera_a": "A-09",
+              "camera_b": "B-29",
+              "global_id": "WIP-09",
+              "score": 0.007
+            },
+            {
+              "camera_a": "A-10",
+              "camera_b": "B-30",
+              "global_id": "WIP-10",
+              "score": 0.006
+            },
+            {
+              "camera_a": "A-11",
+              "camera_b": "B-31",
+              "global_id": "WIP-11",
+              "score": 0.007
+            },
+            {
+              "camera_a": "A-12",
+              "camera_b": "B-32",
+              "global_id": "WIP-12",
+              "score": 0.008
+            }
+          ],
+          "metrics": {
+            "correct": 12,
+            "wrong_links": 0,
+            "traceability_percent": 100.0,
+            "false_queue": 2,
+            "manual_checks": 2,
+            "p95_latency_ms": 50
+          }
+        },
+        "adaptive": {
+          "matches": [
+            {
+              "camera_a": "A-01",
+              "camera_b": "B-21",
+              "global_id": "WIP-01",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-02",
+              "camera_b": "B-22",
+              "global_id": "WIP-02",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-03",
+              "camera_b": "B-23",
+              "global_id": "WIP-03",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-04",
+              "camera_b": "B-24",
+              "global_id": "WIP-04",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-05",
+              "camera_b": "B-25",
+              "global_id": "WIP-05",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-06",
+              "camera_b": "B-26",
+              "global_id": "WIP-06",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-07",
+              "camera_b": "B-27",
+              "global_id": "WIP-07",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-08",
+              "camera_b": "B-28",
+              "global_id": "WIP-08",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-09",
+              "camera_b": "B-29",
+              "global_id": "WIP-09",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-10",
+              "camera_b": "B-30",
+              "global_id": "WIP-10",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-11",
+              "camera_b": "B-31",
+              "global_id": "WIP-11",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-12",
+              "camera_b": "B-32",
+              "global_id": "WIP-12",
+              "score": 1.0
+            }
+          ],
+          "metrics": {
+            "correct": 12,
+            "wrong_links": 0,
+            "traceability_percent": 100.0,
+            "false_queue": 0,
+            "manual_checks": 0,
+            "p95_latency_ms": 63
+          }
+        }
+      }
+    },
+    "lighting": {
+      "observations": {
+        "items": [
+          {
+            "id": "WIP-01",
+            "start": 4.0,
+            "arrival": 11.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-02",
+            "start": 7.0,
+            "arrival": 15.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-03",
+            "start": 10.0,
+            "arrival": 18.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-04",
+            "start": 13.0,
+            "arrival": 20.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-05",
+            "start": 16.0,
+            "arrival": 24.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-06",
+            "start": 19.0,
+            "arrival": 27.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-07",
+            "start": 22.0,
+            "arrival": 29.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-08",
+            "start": 25.0,
+            "arrival": 33.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-09",
+            "start": 28.0,
+            "arrival": 36.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-10",
+            "start": 31.0,
+            "arrival": 38.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-11",
+            "start": 34.0,
+            "arrival": 42.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-12",
+            "start": 37.0,
+            "arrival": 45.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          }
+        ],
+        "camera_a": [
+          {
+            "camera": "A",
+            "local_id": "A-01",
+            "global_id": "WIP-01",
+            "time": 4.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.177239,
+              0.117049,
+              -0.489692,
+              0.479408,
+              0.318283,
+              0.496159,
+              -0.232831,
+              -0.298552
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-02",
+            "global_id": "WIP-02",
+            "time": 7.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.509239,
+              0.546711,
+              0.186744,
+              -0.287049,
+              -0.405734,
+              -0.291497,
+              0.269563,
+              0.013009
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-03",
+            "global_id": "WIP-03",
+            "time": 10.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.037907,
+              -0.266418,
+              -0.599266,
+              0.372337,
+              0.18333,
+              0.182209,
+              0.298877,
+              0.523168
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-04",
+            "global_id": "WIP-04",
+            "time": 13.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.355561,
+              -0.049736,
+              0.585659,
+              -0.302406,
+              0.0569,
+              -0.291089,
+              -0.022097,
+              0.588245
+            ],
+            "truth_id": "WIP-04",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-05",
+            "global_id": "WIP-05",
+            "time": 16.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.104819,
+              -0.290859,
+              -0.044218,
+              -0.39397,
+              -0.745939,
+              0.063704,
+              0.243598,
+              -0.35899
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-06",
+            "global_id": "WIP-06",
+            "time": 19.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.360777,
+              0.419456,
+              0.107994,
+              0.594833,
+              -0.154723,
+              -0.076806,
+              0.000293,
+              -0.550085
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-07",
+            "global_id": "WIP-07",
+            "time": 22.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.170956,
+              0.459483,
+              -0.017753,
+              -0.487248,
+              -0.438097,
+              0.367855,
+              -0.388556,
+              -0.224679
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-08",
+            "global_id": "WIP-08",
+            "time": 25.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.636023,
+              -0.307929,
+              0.390582,
+              0.341985,
+              0.203565,
+              0.272369,
+              -0.296842,
+              0.146
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-09",
+            "global_id": "WIP-09",
+            "time": 28.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.597241,
+              0.409995,
+              0.62079,
+              0.095943,
+              0.061667,
+              -0.272568,
+              0.064621,
+              0.077619
+            ],
+            "truth_id": "WIP-09",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-10",
+            "global_id": "WIP-10",
+            "time": 31.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.21506,
+              0.038969,
+              -0.416475,
+              0.169018,
+              -0.374649,
+              -0.581464,
+              0.476077,
+              -0.202655
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-11",
+            "global_id": "WIP-11",
+            "time": 34.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.108231,
+              -0.311273,
+              -0.40889,
+              0.449356,
+              0.381214,
+              0.466562,
+              -0.396882,
+              0.057419
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-12",
+            "global_id": "WIP-12",
+            "time": 37.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.417638,
+              -0.466476,
+              -0.247939,
+              -0.224545,
+              0.360438,
+              0.411257,
+              0.446205,
+              -0.071769
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ],
+        "camera_b": [
+          {
+            "camera": "B",
+            "local_id": "B-21",
+            "time": 11.65,
+            "confidence": 0.78,
+            "embedding": [
+              -0.098011,
+              0.064473,
+              -0.270579,
+              0.263932,
+              0.173638,
+              0.269738,
+              -0.126587,
+              -0.164084
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-22",
+            "time": 15.0,
+            "confidence": 0.78,
+            "embedding": [
+              0.280712,
+              0.302677,
+              0.105298,
+              -0.158753,
+              -0.224163,
+              -0.160678,
+              0.147231,
+              0.007886
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP1",
+            "time": 18.2,
+            "confidence": 0.43,
+            "embedding": [
+              -0.28688409852066726,
+              -0.056430351397292446,
+              0.31771540248099356,
+              0.2580777846310817,
+              -0.5023427600701394,
+              -0.3037003203928325,
+              -0.4585717167731424,
+              -0.4382872995394155
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-23",
+            "time": 18.35,
+            "confidence": 0.78,
+            "embedding": [
+              -0.017071,
+              -0.142606,
+              -0.329504,
+              0.203927,
+              0.098588,
+              0.100806,
+              0.163289,
+              0.289341
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-24",
+            "time": 20.65,
+            "confidence": 0.78,
+            "embedding": [
+              -0.198452,
+              -0.029353,
+              0.319803,
+              -0.167683,
+              0.031404,
+              -0.158961,
+              -0.010261,
+              0.325297
+            ],
+            "truth_id": "WIP-04",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-25",
+            "time": 24.0,
+            "confidence": 0.78,
+            "embedding": [
+              0.055375,
+              -0.157177,
+              -0.02606,
+              -0.218143,
+              -0.408871,
+              0.037267,
+              0.133095,
+              -0.200041
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-26",
+            "time": 27.35,
+            "confidence": 0.59,
+            "embedding": [
+              0.197066,
+              0.229234,
+              0.058651,
+              0.325695,
+              -0.083733,
+              -0.043299,
+              0.000451,
+              -0.300656
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-27",
+            "time": 29.65,
+            "confidence": 0.78,
+            "embedding": [
+              0.096443,
+              0.250062,
+              -0.008553,
+              -0.267572,
+              -0.239589,
+              0.201794,
+              -0.21242,
+              -0.120729
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-28",
+            "time": 33.0,
+            "confidence": 0.78,
+            "embedding": [
+              -0.352638,
+              -0.168044,
+              0.215851,
+              0.190746,
+              0.114019,
+              0.15016,
+              -0.165093,
+              0.080624
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP2",
+            "time": 33.2,
+            "confidence": 0.43,
+            "embedding": [
+              -0.5336566812077164,
+              0.24638628034700552,
+              -0.3230272714880983,
+              0.17564340218642374,
+              0.3597432194043721,
+              -0.3751079009427122,
+              -0.27560596116715075,
+              -0.4162059075920551
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-29",
+            "time": 36.35,
+            "confidence": 0.78,
+            "embedding": [
+              0.324625,
+              0.226563,
+              0.340345,
+              0.052018,
+              0.032963,
+              -0.146966,
+              0.033813,
+              0.044816
+            ],
+            "truth_id": "WIP-09",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-30",
+            "time": 38.65,
+            "confidence": 0.78,
+            "embedding": [
+              0.11604,
+              0.023947,
+              -0.229523,
+              0.093941,
+              -0.206663,
+              -0.323141,
+              0.26121,
+              -0.109982
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-31",
+            "time": 42.0,
+            "confidence": 0.78,
+            "embedding": [
+              0.061593,
+              -0.168789,
+              -0.223404,
+              0.245886,
+              0.209618,
+              0.258861,
+              -0.218735,
+              0.035405
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-32",
+            "time": 45.35,
+            "confidence": 0.78,
+            "embedding": [
+              0.22689,
+              -0.255142,
+              -0.132227,
+              -0.124102,
+              0.198954,
+              0.22503,
+              0.243705,
+              -0.040069
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ]
+      },
+      "modes": {
+        "baseline": {
+          "matches": [],
+          "metrics": {
+            "correct": 0,
+            "wrong_links": 0,
+            "traceability_percent": 0.0,
+            "false_queue": 2,
+            "manual_checks": 14,
+            "p95_latency_ms": 50
+          }
+        },
+        "adaptive": {
+          "matches": [
+            {
+              "camera_a": "A-01",
+              "camera_b": "B-21",
+              "global_id": "WIP-01",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-02",
+              "camera_b": "B-22",
+              "global_id": "WIP-02",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-03",
+              "camera_b": "B-23",
+              "global_id": "WIP-03",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-04",
+              "camera_b": "B-24",
+              "global_id": "WIP-04",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-05",
+              "camera_b": "B-25",
+              "global_id": "WIP-05",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-07",
+              "camera_b": "B-27",
+              "global_id": "WIP-07",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-08",
+              "camera_b": "B-28",
+              "global_id": "WIP-08",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-09",
+              "camera_b": "B-29",
+              "global_id": "WIP-09",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-10",
+              "camera_b": "B-30",
+              "global_id": "WIP-10",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-11",
+              "camera_b": "B-31",
+              "global_id": "WIP-11",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-12",
+              "camera_b": "B-32",
+              "global_id": "WIP-12",
+              "score": 1.0
+            }
+          ],
+          "metrics": {
+            "correct": 11,
+            "wrong_links": 0,
+            "traceability_percent": 91.7,
+            "false_queue": 0,
+            "manual_checks": 1,
+            "p95_latency_ms": 63
+          }
+        }
+      }
+    },
+    "occlusion": {
+      "observations": {
+        "items": [
+          {
+            "id": "WIP-01",
+            "start": 4.0,
+            "arrival": 11.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-02",
+            "start": 7.0,
+            "arrival": 15.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-03",
+            "start": 10.0,
+            "arrival": 18.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-04",
+            "start": 13.0,
+            "arrival": 20.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-05",
+            "start": 16.0,
+            "arrival": 24.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-06",
+            "start": 19.0,
+            "arrival": 27.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-07",
+            "start": 22.0,
+            "arrival": 29.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-08",
+            "start": 25.0,
+            "arrival": 33.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-09",
+            "start": 28.0,
+            "arrival": 36.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-10",
+            "start": 31.0,
+            "arrival": 38.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-11",
+            "start": 34.0,
+            "arrival": 42.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-12",
+            "start": 37.0,
+            "arrival": 45.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          }
+        ],
+        "camera_a": [
+          {
+            "camera": "A",
+            "local_id": "A-01",
+            "global_id": "WIP-01",
+            "time": 4.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.177239,
+              0.117049,
+              -0.489692,
+              0.479408,
+              0.318283,
+              0.496159,
+              -0.232831,
+              -0.298552
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-02",
+            "global_id": "WIP-02",
+            "time": 7.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.509239,
+              0.546711,
+              0.186744,
+              -0.287049,
+              -0.405734,
+              -0.291497,
+              0.269563,
+              0.013009
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-03",
+            "global_id": "WIP-03",
+            "time": 10.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.037907,
+              -0.266418,
+              -0.599266,
+              0.372337,
+              0.18333,
+              0.182209,
+              0.298877,
+              0.523168
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-04",
+            "global_id": "WIP-04",
+            "time": 13.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.355561,
+              -0.049736,
+              0.585659,
+              -0.302406,
+              0.0569,
+              -0.291089,
+              -0.022097,
+              0.588245
+            ],
+            "truth_id": "WIP-04",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-05",
+            "global_id": "WIP-05",
+            "time": 16.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.564576,
+              -0.090883,
+              -0.506046,
+              -0.293763,
+              0.111306,
+              0.221217,
+              0.476781,
+              0.206094
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-06",
+            "global_id": "WIP-06",
+            "time": 19.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.296889,
+              0.583501,
+              -0.475806,
+              -0.057886,
+              -0.037191,
+              0.294484,
+              -0.296454,
+              -0.409602
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-07",
+            "global_id": "WIP-07",
+            "time": 22.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.057643,
+              -0.607669,
+              -0.448679,
+              -0.025673,
+              0.249884,
+              -0.463829,
+              0.326617,
+              0.180206
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-08",
+            "global_id": "WIP-08",
+            "time": 25.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.61834,
+              -0.398898,
+              0.437159,
+              0.131038,
+              0.169316,
+              0.170765,
+              -0.065599,
+              0.434775
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-09",
+            "global_id": "WIP-09",
+            "time": 28.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.579934,
+              0.530708,
+              0.034061,
+              0.435936,
+              0.329601,
+              -0.138502,
+              -0.241641,
+              0.066556
+            ],
+            "truth_id": "WIP-09",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-10",
+            "global_id": "WIP-10",
+            "time": 31.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.316518,
+              0.413773,
+              0.489189,
+              -0.302475,
+              0.178608,
+              -0.527107,
+              -0.269441,
+              0.129306
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-11",
+            "global_id": "WIP-11",
+            "time": 34.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.50435,
+              -0.027491,
+              0.117325,
+              -0.210842,
+              0.597188,
+              0.52076,
+              -0.209882,
+              0.108427
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-12",
+            "global_id": "WIP-12",
+            "time": 37.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.081514,
+              -0.097867,
+              -0.186125,
+              0.188829,
+              0.098117,
+              -0.573266,
+              -0.621474,
+              -0.432075
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ],
+        "camera_b": [
+          {
+            "camera": "B",
+            "local_id": "B-21",
+            "time": 11.65,
+            "confidence": 0.91,
+            "embedding": [
+              -0.176567,
+              0.117972,
+              -0.489655,
+              0.479147,
+              0.317228,
+              0.492158,
+              -0.232065,
+              -0.298026
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-22",
+            "time": 15.0,
+            "confidence": 0.91,
+            "embedding": [
+              0.510415,
+              0.55,
+              0.189734,
+              -0.287636,
+              -0.40558,
+              -0.291175,
+              0.269086,
+              0.013967
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP1",
+            "time": 18.2,
+            "confidence": 0.43,
+            "embedding": [
+              0.05438331211656165,
+              -0.3731865911647755,
+              -0.5796708085812599,
+              0.16986615052388074,
+              0.05854939611160264,
+              0.4650957075877223,
+              0.5205556358946812,
+              0.04670384416427213
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-23",
+            "time": 18.35,
+            "confidence": 0.91,
+            "embedding": [
+              -0.032874,
+              -0.261654,
+              -0.599098,
+              0.370936,
+              0.181075,
+              0.182786,
+              0.298303,
+              0.525459
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-25",
+            "time": 24.0,
+            "confidence": 0.91,
+            "embedding": [
+              -0.563469,
+              -0.089769,
+              -0.507052,
+              -0.290384,
+              0.110824,
+              0.219621,
+              0.474921,
+              0.208286
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-26",
+            "time": 27.35,
+            "confidence": 0.91,
+            "embedding": [
+              -0.296387,
+              0.579148,
+              -0.478794,
+              -0.057842,
+              -0.036849,
+              0.292664,
+              -0.29412,
+              -0.409225
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-27",
+            "time": 29.65,
+            "confidence": 0.91,
+            "embedding": [
+              -0.057761,
+              -0.609037,
+              -0.447038,
+              -0.022346,
+              0.251508,
+              -0.463647,
+              0.326077,
+              0.180111
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-28",
+            "time": 33.0,
+            "confidence": 0.91,
+            "embedding": [
+              0.621403,
+              -0.395725,
+              0.433909,
+              0.128313,
+              0.167391,
+              0.167866,
+              -0.062991,
+              0.434116
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP2",
+            "time": 33.2,
+            "confidence": 0.43,
+            "embedding": [
+              -0.6862794931876931,
+              0.10841514877294936,
+              0.6662934816114149,
+              -0.03795016113538471,
+              0.2239817415479583,
+              0.021496849276852265,
+              -0.08099872220415748,
+              -0.12119680814330594
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-30",
+            "time": 38.65,
+            "confidence": 0.91,
+            "embedding": [
+              0.320456,
+              0.411766,
+              0.487108,
+              -0.300158,
+              0.177409,
+              -0.531205,
+              -0.264877,
+              0.125938
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-31",
+            "time": 42.0,
+            "confidence": 0.91,
+            "embedding": [
+              0.506234,
+              -0.031482,
+              0.115571,
+              -0.209243,
+              0.598613,
+              0.525479,
+              -0.21082,
+              0.107053
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-32",
+            "time": 45.35,
+            "confidence": 0.91,
+            "embedding": [
+              -0.080872,
+              -0.102821,
+              -0.188622,
+              0.188272,
+              0.100087,
+              -0.571656,
+              -0.616843,
+              -0.435266
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ]
+      },
+      "modes": {
+        "baseline": {
+          "matches": [
+            {
+              "camera_a": "A-01",
+              "camera_b": "B-21",
+              "global_id": "WIP-01",
+              "score": 0.004
+            },
+            {
+              "camera_a": "A-02",
+              "camera_b": "B-22",
+              "global_id": "WIP-02",
+              "score": 0.005
+            },
+            {
+              "camera_a": "A-03",
+              "camera_b": "B-23",
+              "global_id": "WIP-03",
+              "score": 0.008
+            },
+            {
+              "camera_a": "A-05",
+              "camera_b": "B-25",
+              "global_id": "WIP-05",
+              "score": 0.005
+            },
+            {
+              "camera_a": "A-06",
+              "camera_b": "B-26",
+              "global_id": "WIP-06",
+              "score": 0.006
+            },
+            {
+              "camera_a": "A-07",
+              "camera_b": "B-27",
+              "global_id": "WIP-07",
+              "score": 0.004
+            },
+            {
+              "camera_a": "A-08",
+              "camera_b": "B-28",
+              "global_id": "WIP-08",
+              "score": 0.008
+            },
+            {
+              "camera_a": "A-10",
+              "camera_b": "B-30",
+              "global_id": "WIP-10",
+              "score": 0.009
+            },
+            {
+              "camera_a": "A-11",
+              "camera_b": "B-31",
+              "global_id": "WIP-11",
+              "score": 0.007
+            },
+            {
+              "camera_a": "A-12",
+              "camera_b": "B-32",
+              "global_id": "WIP-12",
+              "score": 0.008
+            }
+          ],
+          "metrics": {
+            "correct": 10,
+            "wrong_links": 0,
+            "traceability_percent": 83.3,
+            "false_queue": 2,
+            "manual_checks": 4,
+            "p95_latency_ms": 50
+          }
+        },
+        "adaptive": {
+          "matches": [
+            {
+              "camera_a": "A-01",
+              "camera_b": "B-21",
+              "global_id": "WIP-01",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-02",
+              "camera_b": "B-22",
+              "global_id": "WIP-02",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-03",
+              "camera_b": "B-23",
+              "global_id": "WIP-03",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-05",
+              "camera_b": "B-25",
+              "global_id": "WIP-05",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-06",
+              "camera_b": "B-26",
+              "global_id": "WIP-06",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-07",
+              "camera_b": "B-27",
+              "global_id": "WIP-07",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-08",
+              "camera_b": "B-28",
+              "global_id": "WIP-08",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-10",
+              "camera_b": "B-30",
+              "global_id": "WIP-10",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-11",
+              "camera_b": "B-31",
+              "global_id": "WIP-11",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-12",
+              "camera_b": "B-32",
+              "global_id": "WIP-12",
+              "score": 1.0
+            }
+          ],
+          "metrics": {
+            "correct": 10,
+            "wrong_links": 0,
+            "traceability_percent": 83.3,
+            "false_queue": 0,
+            "manual_checks": 2,
+            "p95_latency_ms": 63
+          }
+        }
+      }
+    },
+    "combined": {
+      "observations": {
+        "items": [
+          {
+            "id": "WIP-01",
+            "start": 4.0,
+            "arrival": 11.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-02",
+            "start": 7.0,
+            "arrival": 15.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-03",
+            "start": 10.0,
+            "arrival": 18.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-04",
+            "start": 13.0,
+            "arrival": 20.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-05",
+            "start": 16.0,
+            "arrival": 24.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-06",
+            "start": 19.0,
+            "arrival": 27.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-07",
+            "start": 22.0,
+            "arrival": 29.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-08",
+            "start": 25.0,
+            "arrival": 33.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-09",
+            "start": 28.0,
+            "arrival": 36.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          },
+          {
+            "id": "WIP-10",
+            "start": 31.0,
+            "arrival": 38.65,
+            "lane": 0,
+            "color": "#67e8f9"
+          },
+          {
+            "id": "WIP-11",
+            "start": 34.0,
+            "arrival": 42.0,
+            "lane": 1,
+            "color": "#a78bfa"
+          },
+          {
+            "id": "WIP-12",
+            "start": 37.0,
+            "arrival": 45.35,
+            "lane": 2,
+            "color": "#fbbf24"
+          }
+        ],
+        "camera_a": [
+          {
+            "camera": "A",
+            "local_id": "A-01",
+            "global_id": "WIP-01",
+            "time": 4.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.177239,
+              0.117049,
+              -0.489692,
+              0.479408,
+              0.318283,
+              0.496159,
+              -0.232831,
+              -0.298552
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-02",
+            "global_id": "WIP-02",
+            "time": 7.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.509239,
+              0.546711,
+              0.186744,
+              -0.287049,
+              -0.405734,
+              -0.291497,
+              0.269563,
+              0.013009
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-03",
+            "global_id": "WIP-03",
+            "time": 10.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.037907,
+              -0.266418,
+              -0.599266,
+              0.372337,
+              0.18333,
+              0.182209,
+              0.298877,
+              0.523168
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-04",
+            "global_id": "WIP-04",
+            "time": 13.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.355561,
+              -0.049736,
+              0.585659,
+              -0.302406,
+              0.0569,
+              -0.291089,
+              -0.022097,
+              0.588245
+            ],
+            "truth_id": "WIP-04",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-05",
+            "global_id": "WIP-05",
+            "time": 16.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.564576,
+              -0.090883,
+              -0.506046,
+              -0.293763,
+              0.111306,
+              0.221217,
+              0.476781,
+              0.206094
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-06",
+            "global_id": "WIP-06",
+            "time": 19.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.296889,
+              0.583501,
+              -0.475806,
+              -0.057886,
+              -0.037191,
+              0.294484,
+              -0.296454,
+              -0.409602
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-07",
+            "global_id": "WIP-07",
+            "time": 22.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.057643,
+              -0.607669,
+              -0.448679,
+              -0.025673,
+              0.249884,
+              -0.463829,
+              0.326617,
+              0.180206
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-08",
+            "global_id": "WIP-08",
+            "time": 25.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.61834,
+              -0.398898,
+              0.437159,
+              0.131038,
+              0.169316,
+              0.170765,
+              -0.065599,
+              0.434775
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-09",
+            "global_id": "WIP-09",
+            "time": 28.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.579934,
+              0.530708,
+              0.034061,
+              0.435936,
+              0.329601,
+              -0.138502,
+              -0.241641,
+              0.066556
+            ],
+            "truth_id": "WIP-09",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-10",
+            "global_id": "WIP-10",
+            "time": 31.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.316518,
+              0.413773,
+              0.489189,
+              -0.302475,
+              0.178608,
+              -0.527107,
+              -0.269441,
+              0.129306
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-11",
+            "global_id": "WIP-11",
+            "time": 34.0,
+            "confidence": 0.95,
+            "embedding": [
+              0.50435,
+              -0.027491,
+              0.117325,
+              -0.210842,
+              0.597188,
+              0.52076,
+              -0.209882,
+              0.108427
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "A",
+            "local_id": "A-12",
+            "global_id": "WIP-12",
+            "time": 37.0,
+            "confidence": 0.95,
+            "embedding": [
+              -0.081514,
+              -0.097867,
+              -0.186125,
+              0.188829,
+              0.098117,
+              -0.573266,
+              -0.621474,
+              -0.432075
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ],
+        "camera_b": [
+          {
+            "camera": "B",
+            "local_id": "B-21",
+            "time": 11.65,
+            "confidence": 0.78,
+            "embedding": [
+              -0.098011,
+              0.064473,
+              -0.270579,
+              0.263932,
+              0.173638,
+              0.269738,
+              -0.126587,
+              -0.164084
+            ],
+            "truth_id": "WIP-01",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-22",
+            "time": 15.0,
+            "confidence": 0.78,
+            "embedding": [
+              0.280712,
+              0.302677,
+              0.105298,
+              -0.158753,
+              -0.224163,
+              -0.160678,
+              0.147231,
+              0.007886
+            ],
+            "truth_id": "WIP-02",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP1",
+            "time": 18.2,
+            "confidence": 0.43,
+            "embedding": [
+              0.05438331211656165,
+              -0.3731865911647755,
+              -0.5796708085812599,
+              0.16986615052388074,
+              0.05854939611160264,
+              0.4650957075877223,
+              0.5205556358946812,
+              0.04670384416427213
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-23",
+            "time": 18.35,
+            "confidence": 0.78,
+            "embedding": [
+              -0.017071,
+              -0.142606,
+              -0.329504,
+              0.203927,
+              0.098588,
+              0.100806,
+              0.163289,
+              0.289341
+            ],
+            "truth_id": "WIP-03",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-25",
+            "time": 24.0,
+            "confidence": 0.78,
+            "embedding": [
+              -0.309261,
+              -0.049292,
+              -0.279394,
+              -0.158763,
+              0.059663,
+              0.120167,
+              0.260723,
+              0.115024
+            ],
+            "truth_id": "WIP-05",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-26",
+            "time": 27.35,
+            "confidence": 0.59,
+            "embedding": [
+              -0.162128,
+              0.317348,
+              -0.264478,
+              -0.030705,
+              -0.020397,
+              0.16001,
+              -0.160719,
+              -0.225912
+            ],
+            "truth_id": "WIP-06",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-27",
+            "time": 29.65,
+            "confidence": 0.78,
+            "embedding": [
+              -0.031356,
+              -0.33433,
+              -0.245185,
+              -0.01213,
+              0.137862,
+              -0.253922,
+              0.178042,
+              0.098406
+            ],
+            "truth_id": "WIP-07",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-28",
+            "time": 33.0,
+            "confidence": 0.78,
+            "embedding": [
+              0.341961,
+              -0.2168,
+              0.23792,
+              0.069987,
+              0.091581,
+              0.091534,
+              -0.034029,
+              0.238741
+            ],
+            "truth_id": "WIP-08",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-FP2",
+            "time": 33.2,
+            "confidence": 0.43,
+            "embedding": [
+              -0.6862794931876931,
+              0.10841514877294936,
+              0.6662934816114149,
+              -0.03795016113538471,
+              0.2239817415479583,
+              0.021496849276852265,
+              -0.08099872220415748,
+              -0.12119680814330594
+            ],
+            "truth_id": null,
+            "is_false_positive": true
+          },
+          {
+            "camera": "B",
+            "local_id": "B-30",
+            "time": 38.65,
+            "confidence": 0.78,
+            "embedding": [
+              0.176676,
+              0.226549,
+              0.267079,
+              -0.164749,
+              0.096825,
+              -0.293325,
+              -0.144732,
+              0.068861
+            ],
+            "truth_id": "WIP-10",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-31",
+            "time": 42.0,
+            "confidence": 0.78,
+            "embedding": [
+              0.278669,
+              -0.018003,
+              0.062661,
+              -0.114091,
+              0.33008,
+              0.290052,
+              -0.116823,
+              0.05901
+            ],
+            "truth_id": "WIP-11",
+            "is_false_positive": false
+          },
+          {
+            "camera": "B",
+            "local_id": "B-32",
+            "time": 45.35,
+            "confidence": 0.78,
+            "embedding": [
+              -0.043353,
+              -0.057806,
+              -0.104404,
+              0.102941,
+              0.05602,
+              -0.313307,
+              -0.338066,
+              -0.23959
+            ],
+            "truth_id": "WIP-12",
+            "is_false_positive": false
+          }
+        ]
+      },
+      "modes": {
+        "baseline": {
+          "matches": [],
+          "metrics": {
+            "correct": 0,
+            "wrong_links": 0,
+            "traceability_percent": 0.0,
+            "false_queue": 2,
+            "manual_checks": 14,
+            "p95_latency_ms": 50
+          }
+        },
+        "adaptive": {
+          "matches": [
+            {
+              "camera_a": "A-01",
+              "camera_b": "B-21",
+              "global_id": "WIP-01",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-02",
+              "camera_b": "B-22",
+              "global_id": "WIP-02",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-03",
+              "camera_b": "B-23",
+              "global_id": "WIP-03",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-05",
+              "camera_b": "B-25",
+              "global_id": "WIP-05",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-07",
+              "camera_b": "B-27",
+              "global_id": "WIP-07",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-08",
+              "camera_b": "B-28",
+              "global_id": "WIP-08",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-10",
+              "camera_b": "B-30",
+              "global_id": "WIP-10",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-11",
+              "camera_b": "B-31",
+              "global_id": "WIP-11",
+              "score": 1.0
+            },
+            {
+              "camera_a": "A-12",
+              "camera_b": "B-32",
+              "global_id": "WIP-12",
+              "score": 1.0
+            }
+          ],
+          "metrics": {
+            "correct": 9,
+            "wrong_links": 0,
+            "traceability_percent": 75.0,
+            "false_queue": 0,
+            "manual_checks": 3,
+            "p95_latency_ms": 63
+          }
+        }
+      }
+    }
+  }
+}
