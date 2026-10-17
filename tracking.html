@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1020">
+  <title>FlowTwin — 跨鏡頭在製品追蹤數位孿生模擬器</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">F<span>·</span>T</span><div><strong>FlowTwin</strong><small>FACTORY VISION LAB</small></div></div>
+      <div class="side-label">工作台</div>
+      <nav aria-label="頁面區塊">
+        <a href="#overview" class="active"><span>◉</span> 總覽</a>
+        <a href="#factory"><span>◇</span> 產線模擬</a>
+        <a href="#evidence"><span>▤</span> 關聯證據</a>
+        <a href="#poc"><span>◎</span> PoC 驗收</a>
+      </nav>
+      <div class="side-bottom"><span class="status-dot"></span> OFFLINE SIMULATION<br><small>Python 標準函式庫 · 零 API 呼叫</small></div>
+    </aside>
+    <main>
+      <header class="topbar"><div class="breadcrumb">VISION OPERATIONS <span>/</span> WIP TRACEABILITY</div><div class="top-right"><a href="index.html" style="color:#89deec;text-decoration:none;font-size:12px">3D 瑕疵檢查 ↗</a><span class="pill subtle">● 模擬環境</span><span class="avatar">FT</span></div></header>
+      <div class="content" id="overview">
+        <section class="intro">
+          <div><div class="eyebrow">FACTORY DIGITAL TWIN / PROOF OF CONCEPT</div><h1>跨鏡頭在製品追蹤</h1><p>從進站到出站，檢查每個工件的身分連續性。切換現場情境，觀察追蹤品質、人工覆核量與處理延遲如何變化。</p></div>
+          <div class="intro-badge"><span>DEMO</span><strong>02 CAMERAS</strong><small>12 SYNTHETIC WIP</small></div>
+        </section>
+        <div class="notice"><span class="notice-icon">i</span><div><strong>合成資料展示</strong>　所有工件、相機觀測、特徵向量與延遲均由固定種子產生。沒有連接真實相機、模型推論或工廠系統；以下數字不是客戶現場成效。</div></div>
+        <section class="controls" aria-label="模擬控制">
+          <div class="control-group"><label for="scenario">現場情境</label><select id="scenario"><option value="normal">標準產線</option><option value="lighting">光線突變</option><option value="occlusion">遮擋漏拍</option><option value="combined">光線＋遮擋</option></select></div>
+          <div class="control-group"><label for="mode">跨鏡頭關聯</label><select id="mode"><option value="adaptive">正規化外觀＋時窗＋信心門檻</option><option value="baseline">原始外觀距離</option></select></div>
+          <div class="control-actions"><button id="play" class="primary">▶ 播放產線</button><button id="reset" class="secondary">↺ 重設</button></div>
+        </section>
+        <section class="kpis" aria-label="模擬指標">
+          <article class="kpi"><div class="kpi-heading">正確跨鏡頭關聯 <span>01 / 04</span></div><div class="kpi-value"><strong id="trace">—</strong><small>%</small></div><div class="kpi-foot" id="trace-detail">—</div></article>
+          <article class="kpi"><div class="kpi-heading">誤報進入覆核 <span>02 / 04</span></div><div class="kpi-value"><strong id="false">—</strong><small>件</small></div><div class="kpi-foot">低信心雜訊通過門檻</div></article>
+          <article class="kpi"><div class="kpi-heading">人工覆核估計 <span>03 / 04</span></div><div class="kpi-value"><strong id="review">—</strong><small>件</small></div><div class="kpi-foot">未正確關聯 + 誤報佇列</div></article>
+          <article class="kpi"><div class="kpi-heading">處理延遲 P95 <span>04 / 04</span></div><div class="kpi-value"><strong id="latency">—</strong><small>ms</small></div><div class="kpi-foot">情境假設，非硬體量測</div></article>
+        </section>
+        <section class="grid-main" id="factory">
+          <article class="panel factory-panel"><div class="panel-heading"><div><div class="panel-kicker">LIVE SIMULATION</div><h2>產線數位孿生</h2></div><div class="live"><span></span><span id="clock">T+00.0s</span></div></div>
+            <div class="factory-stage">
+              <div class="factory-top"><div class="node camera"><span class="node-icon">◉</span><strong>CAM 01</strong><small>入站辨識</small></div><div class="node transfer"><span class="node-icon">⇄</span><strong>TRANSFER</strong><small>跨區搬運</small></div><div class="node camera"><span class="node-icon">◉</span><strong>CAM 02</strong><small>出站辨識</small></div></div>
+              <div class="conveyor"><span class="conveyor-label left">INFEED</span><div class="conveyor-track"><div class="belt-lines"></div><div id="workpieces" class="workpieces"></div></div><span class="conveyor-label right">OUTFEED</span></div>
+              <div class="factory-bottom"><div><span class="mini-dot cyan"></span> Camera A 視野</div><div><span class="mini-dot purple"></span> 跨區關聯</div><div><span class="mini-dot amber"></span> Camera B 視野</div></div>
+            </div>
+            <div class="factory-footer"><div><span class="footer-label">當前狀態</span><strong id="event">等待播放</strong></div><div><span class="footer-label">資料來源</span><strong>SEED 71 · SYNTHETIC</strong></div></div>
+          </article>
+          <article class="panel comparison"><div class="panel-heading"><div><div class="panel-kicker">DECISION VIEW</div><h2>方法對照</h2></div></div><p class="panel-description">同一組合成觀測，僅改變跨鏡頭關聯方法。</p><div class="compare-header"><span>指標</span><span>原始距離</span><span>正規化＋門檻</span></div><div id="comparison-rows"></div><div class="callout"><span>↗</span><p id="insight">切換情境查看關聯結果與代價。</p></div></article>
+        </section>
+        <section class="grid-lower" id="evidence">
+          <article class="panel evidence"><div class="panel-heading"><div><div class="panel-kicker">TRACK ASSOCIATION</div><h2>跨鏡頭關聯證據</h2></div><span class="small-pill" id="match-count">— 筆關聯</span></div><div class="table-wrap"><table><thead><tr><th>全域 WIP ID</th><th>CAM 01</th><th>CAM 02</th><th>關聯分數</th><th>離線判定</th></tr></thead><tbody id="match-rows"></tbody></table></div><div class="table-note">離線判定使用合成真值；關聯演算法本身不讀取真值。</div></article>
+          <article class="panel observation"><div class="panel-heading"><div><div class="panel-kicker">CAMERA EVENTS</div><h2>觀測摘要</h2></div></div><div class="observation-numbers"><div><strong>12</strong><span>CAM 01 觀測</span></div><div><strong id="cam-b-count">—</strong><span>CAM 02 真實觀測</span></div><div><strong>2</strong><span>注入低信心雜訊</span></div></div><div class="divider"></div><div class="event-list" id="event-list"></div></article>
+        </section>
+        <section class="panel poc" id="poc"><div class="panel-heading"><div><div class="panel-kicker">CUSTOMER DISCOVERY → PILOT</div><h2>與客戶討論的 PoC 驗收設計</h2></div><span class="small-pill">提案草案</span></div><div class="poc-grid"><div class="poc-card"><span>01 / 需求釐清</span><h3>先問現場損失</h3><p>要追的是哪一段製程？漏追造成重工、停線或追溯成本？相機視野、光線、節拍和資料保留限制是什麼？</p></div><div class="poc-card"><span>02 / 分層驗證</span><h3>從錄影到現場</h3><p>先用已標註的雙鏡頭影片離線回放，再於邊緣設備影子運行，最後接入現場看板與人工覆核流程。</p></div><div class="poc-card"><span>03 / 驗收門檻</span><h3>共同訂 KPI</h3><p>建議討論身分連續率、錯誤關聯率、每班誤報與漏報、端到端 P95 延遲；門檻須依客戶基線、成本與試點資料訂定。</p></div><div class="poc-card"><span>04 / 商務決策</span><h3>把技術換成效益</h3><p>以每班人工覆核分鐘、追溯工時、導入與維運成本試算。先釐清節省來源，再決定是否擴線部署。</p></div></div></section>
+        <footer>FLOWTWIN · PORTFOLIO PROTOTYPE <span>合成資料 / 研究展示 / 不代表實際工廠系統</span></footer>
+      </div>
+    </main>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>
