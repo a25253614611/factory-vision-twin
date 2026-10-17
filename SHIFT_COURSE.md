@@ -1,6 +1,6 @@
 # 3D 光學檢查工程師值班：7 天實作課
 
-[開啟線上值班遊戲](https://a25253614611.github.io/factory-vision-twin/shift.html) · [檢視程式碼](https://github.com/a25253614611/factory-vision-twin)
+[開啟光學值班練習](https://a25253614611.github.io/factory-vision-twin/aoi-shift.html) · [整廠機台監控](https://a25253614611.github.io/factory-vision-twin/monitor.html) · [檢視程式碼](https://github.com/a25253614611/factory-vision-twin)
 
 這是一個**原創、完全虛構**的無塵室值班小遊戲。玩家走訪載具、製程履歷、AOI、品質處置、交班五站。Three.js 在瀏覽器生成 3D 設備、軌道、房間與人物；`inspection-core.js` 對合成晶圓影像做參考圖比對。沒有台積電廠區、機台尺寸、製程參數或公司內部資料；也沒有實體設備、MES 或相機連線。練習目標是從客戶與現場問題出發，說清楚如何驗證電腦視覺原型及其風險。
 
@@ -8,7 +8,7 @@
 
 線上開啟上方連結即可玩。選「疑似微粒」，按「開始值班」，使用 `WASD`／方向鍵移動或點設備自動前往，靠近發光任務站後按 `E` 或右側按鈕。手機可用方向按鈕。依序核對載具、查履歷、執行 AOI、選擇處置、完成交班並下載 JSON。再重玩「照明波動」與「正常批次」。3D 不可用時，右側任務仍能操作。
 
-本機開發：在儲存庫根目錄執行 `py -3 -m http.server 8766 --bind 127.0.0.1`，前往 <http://127.0.0.1:8766/shift.html>。不能直接雙擊 HTML，因為頁面使用 ES modules。`npm test` 會測試影像演算法、公司流程及值班狀態機；執行網頁不需 `npm install`，Three.js 已存於 `vendor/three/`。
+本機開發：在儲存庫根目錄執行 `py -3 -m http.server 8766 --bind 127.0.0.1`，前往 <http://127.0.0.1:8766/aoi-shift.html>。不能直接雙擊 HTML，因為頁面使用 ES modules。`npm test` 會測試影像演算法、公司流程及值班狀態機；執行網頁不需 `npm install`，Three.js 已存於 `vendor/three/`。
 
 ## 每天兩小時的安排
 

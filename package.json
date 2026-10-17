@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test test_inspection.mjs test_enterprise.mjs test_shift.mjs"
+    "test": "node --test test_inspection.mjs test_enterprise.mjs test_shift.mjs test_monitor.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

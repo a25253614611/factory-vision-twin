@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091b25">
+  <meta name="description" content="走進原創 3D 無塵室，體驗光學檢查與品質工程師的一次虛構值班。">
+  <title>FlowTwin Shift | 3D 光學檢查工程師值班</title>
+  <link rel="stylesheet" href="shift.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js"}}</script>
+  <script type="module" src="shift-ui.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="./"><span class="mark">F<span>·</span>T</span><span><strong>FlowTwin</strong><small>FAB SHIFT SIMULATOR</small></span></a>
+      <nav aria-label="專案導覽"><a href="monitor.html">整廠機台監控</a><a href="./">企業總覽</a><a href="wafer.html">影像工作台</a><a href="https://github.com/a25253614611/factory-vision-twin/blob/main/SHIFT_COURSE.md">學習課程</a></nav>
+      <div class="top-status"><i></i> SYNTHETIC SHIFT</div>
+    </header>
+
+    <main>
+      <section class="heading"><div><div class="eyebrow">SINGLE-STATION PRACTICE / COMPUTER VISION</div><h1>光學檢查工程師值班</h1><p>在無塵室練習一次影像判讀與品質處置。想觀察整個工廠，請開啟<a class="monitor-link" href="monitor.html">整廠機台監控 ↗</a>。</p></div><button id="resetButton" class="outline" type="button">重新值班 ↺</button></section>
+      <div class="notice"><strong>原創合成場景</strong>　人物、設備、批次、影像與作業流程均為教學示意；不代表台積電或任何公司的真實廠區、設備規格及放行程序。影像比對在瀏覽器本機執行，無模型 API 費用。</div>
+      <section class="stats" aria-label="值班狀態"><div><span>模擬時間</span><strong id="clockValue">08:00</strong></div><div><span>虛構批次</span><strong>LOT-2041</strong></div><div><span>任務進度</span><strong id="progressValue">0 / 5</strong></div><div><span>處置分數</span><strong id="scoreValue">100</strong></div></section>
+
+      <div class="workspace">
+        <section class="scene-panel" aria-label="3D 無塵室遊戲畫面">
+          <div class="scene-bar"><span><b class="live-dot"></b> CLEANROOM 01 / OPTICAL QUALITY</span><span>WASD 移動 · E 互動 · 點擊前往 · 拖曳旋轉／滾輪縮放</span></div>
+          <div class="scene-wrap"><canvas id="shiftCanvas" aria-label="可移動人物及操作站點的 3D 無塵室"></canvas><div id="sceneFallback" class="fallback" hidden>此瀏覽器無法啟用 3D。右側仍可依序操作完整值班流程。</div><div class="scene-label">ORIGINAL PROCEDURAL 3D · FICTIONAL LAYOUT</div><div id="toast" class="toast" role="status" aria-live="polite"></div></div>
+          <div class="scene-controls"><div class="movement" aria-label="移動控制"><button data-move="up" aria-label="向前" type="button">↑</button><span><button data-move="left" aria-label="向左" type="button">←</button><button data-move="down" aria-label="向後" type="button">↓</button><button data-move="right" aria-label="向右" type="button">→</button></span></div><div><button id="goButton" type="button" class="secondary">帶我去任務站點</button><button id="interactButton" type="button" class="primary">與站點互動 <kbd>E</kbd></button></div></div>
+        </section>
+
+        <aside class="mission-panel" aria-label="工程師任務面板">
+          <div class="panel-header"><span>SHIFT MISSION / 01</span><span id="phaseBadge">待開始</span></div>
+          <div class="station-map" id="stationMap" aria-label="五個值班站點"></div>
+          <div class="mission-copy"><span class="kicker" id="stationCode">SELECT SCENARIO</span><h2 id="stationTitle">開始一次值班</h2><p id="stationDescription">選一個合成情境，依任務指示走訪無塵室中的五個站點。</p></div>
+          <div id="stationBody" class="station-body"></div>
+          <div id="stationActions" class="station-actions"></div>
+          <div class="mission-note" id="missionNote">畫面中的分析結果僅為影像差異提示，應由人員覆核。</div>
+        </aside>
+      </div>
+      <section class="log-panel"><div><span class="eyebrow">TRACEABLE EVENT LOG</span><h2>本次值班紀錄</h2></div><ol id="eventList"></ol></section>
+      <footer>FLOWTWIN · SYNTHETIC PORTFOLIO DEMO <span><a href="./">企業總覽</a> · <a href="wafer.html">晶圓檢查工作台</a> · <a href="https://github.com/a25253614611/factory-vision-twin">GitHub</a></span></footer>
+    </main>
+  </div>
+</body>
+</html>

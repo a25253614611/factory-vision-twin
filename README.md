@@ -1,6 +1,12 @@
 # FlowTwin Enterprise｜半導體企業流程與晶圓視覺檢查模擬
 
-**[開啟企業總覽](https://a25253614611.github.io/factory-vision-twin/)** · **[玩 3D 工程師值班](https://a25253614611.github.io/factory-vision-twin/shift.html)** · [值班遊戲 7 天課](SHIFT_COURSE.md) · [公司層級課程](ENTERPRISE_COURSE.md) · [晶圓檢測工作台](https://a25253614611.github.io/factory-vision-twin/wafer.html) · [晶圓檢測 7 天課](WAFER_COURSE.md) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+**[開啟 3D 整廠機台監控](https://a25253614611.github.io/factory-vision-twin/monitor.html)** · [監控使用與面試指南](MONITOR_GUIDE.md) · [企業總覽](https://a25253614611.github.io/factory-vision-twin/) · [光學工程師值班練習](https://a25253614611.github.io/factory-vision-twin/aoi-shift.html) · [值班遊戲 7 天課](SHIFT_COURSE.md) · [晶圓檢測工作台](https://a25253614611.github.io/factory-vision-twin/wafer.html) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+
+## 3D 整廠設備監控
+
+新主頁 `monitor.html` 有六個虛構廠區、24 台可點選設備：公用系統、光刻、薄膜沉積、蝕刻、平坦化與光學檢查。3D 地圖、六區熱區卡、機台表和詳細訊號都讀取同一個可測試的狀態。可按 5／30 分鐘推進，或自動播放，觀察溫度、振動、功率、照度、估計處理量、狀態及時間趨勢。三種異常情境會跨區影響其他機台：冷卻迴路漂移、蝕刻振動、檢查照明波動。玩家根據相依關係判定源頭、派出**模擬**維修，再觀察其他機台恢復。搜尋、區域與狀態篩選可用來快速檢視全廠。估計線速取製程區中最小處理能力，避免直接加總同一晶圓在多站的通過量。
+
+舊 `shift.html` 會轉到監控頁；原本的單一無塵室練習保留於 `aoi-shift.html`。這些訊號都是決定性的合成範例，沒有讀取真實台積電設備、MES、SCADA、PLC 或 IoT 資料，也沒有遠端控制。瀏覽器本機運作時沒有模型 API 呼叫。若要監控真實工廠，仍需業主授權的資料接口、時戳／設備 ID 對應、權限、稽核與現場驗證。詳見[監控使用與面試指南](MONITOR_GUIDE.md)。
 
 ## 3D 光學檢查工程師值班（可玩版本）
 
