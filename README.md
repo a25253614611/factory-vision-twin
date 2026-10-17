@@ -1,6 +1,25 @@
-# FlowTwin Wafer｜3D 晶圓製程光學檢查展示
+# FlowTwin Enterprise｜半導體企業流程與晶圓視覺檢查模擬
 
-**[開啟晶圓檢測線上版](https://a25253614611.github.io/factory-vision-twin/)** · [晶圓檢測 7 天課](WAFER_COURSE.md) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+**[開啟企業總覽](https://a25253614611.github.io/factory-vision-twin/)** · [公司層級課程](ENTERPRISE_COURSE.md) · [晶圓檢測工作台](https://a25253614611.github.io/factory-vision-twin/wafer.html) · [晶圓檢測 7 天課](WAFER_COURSE.md) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+
+## 公司層級展示
+
+首頁是一個**可操作、完全虛構**的半導體企業流程模擬。3D 廠區與批次表呈現七個功能：客戶訂單、設計協作、材料供應、晶圓製造、光學檢查、封裝測試、交付物流。另有客戶／BD、製程工程、設備／廠務與品質的支援視角。可以每次推進 1 或 8 個模擬小時，切換「正常運行」「疑似微粒」「設備停機」「急單插入」，觀察暫停、人工處置、返工、交期與事件紀錄。瀏覽器工作階段會保留總覽進度，方便進入影像頁再返回。`enterprise-core.js` 是可測試的決定性狀態機；`enterprise-ui.js` 顯示指標與批次；`enterprise-3d.js` 將相同狀態投影到 Three.js 抽象廠區。
+
+這個「公司」不是台積電的組織、廠區或 MES 複製品。客戶、批次、時程和營運數字都是合成資料；沒有內部資料、真實產線、設備或供應鏈連線，也不預測真實交期、良率或產能。公開資料只支持展示選擇了哪些跨部門環節：[台積電製造介紹](https://www.tsmc.com/english/dedicatedFoundry/manufacturing)、[智慧營運](https://www.tsmc.com/english/dedicatedFoundry/manufacturing/intelligent_operations)、[智慧封裝廠](https://www.tsmc.com/english/dedicatedFoundry/services/apm_intelligent_packaging_fab)。作品與台積電無關聯。
+
+![虛構批次在光學檢查站暫停的企業 3D 總覽](enterprise-overview.png)
+
+### 兩分鐘展示流程
+
+1. 在首頁選「疑似微粒」，按「推進 8 小時」，觀察批次在光學檢查暫停；在 3D 或流程列點選檢查站。
+2. 開啟[晶圓影像檢查工作台](https://a25253614611.github.io/factory-vision-twin/wafer.html)，點「微粒示範」，看合成影像的疑似差異框與相對位置圖。
+3. 回總覽按「覆核後返工」，觀察批次退回製造站，再推進時間直到交付。說明此情境的 BD 問題：誤報成本、人工覆核量、返工時間與交期風險。
+4. 若面試官問到可否現場使用，說明下一步需要授權資料、MES／相機介面、告警規則和真實批次回放驗證；現版僅是瀏覽器 PoC。
+
+啟動與檢查：`py -3 -m http.server 8766 --bind 127.0.0.1`，開啟 <http://127.0.0.1:8766/>；`npm test`、`py -3 -m unittest -q`。前端沒有模型 API 呼叫，操作模擬時模型 token 用量為零。
+
+## 晶圓視覺檢查工作台
 
 以「晶圓製程後光學檢查」為面試場景的**公開資料原型**。主頁包含可旋轉的 3D 製程檢查站、合成晶圓的微粒／刮痕／良品示範、圓形 ROI 參考圖比對、疑似差異標框、相對位置圖與批次匯出。使用者也能上傳固定視角、同製程層的自有照片。照片在瀏覽器本機處理，執行時不呼叫模型 API。
 
@@ -17,7 +36,7 @@
 3. 系統以小範圍平移校正、全域亮度補償、圓形遮罩、像素門檻和相連差異區域找出疑似位置。調整門檻後重跑；CSV／JSON 匯出含框座標與參數，但不含原始照片。
 4. 記錄誤報與漏檢，請人工覆核。上線前須用取得授權的真實影像，分製程層、缺陷類型、機台、批次與光線條件驗證。
 
-本機啟動：在 repo 目錄執行 `py -3 -m http.server 8766 --bind 127.0.0.1`，開啟 <http://127.0.0.1:8766/>。前端不需 `npm install`；Three.js 已置於 `vendor/three/`。程式測試：`npm test` 與 `py -3 -m unittest -q`。
+本機啟動：在 repo 目錄執行 `py -3 -m http.server 8766 --bind 127.0.0.1`，開啟 <http://127.0.0.1:8766/wafer.html>。前端不需 `npm install`；Three.js 已置於 `vendor/three/`。程式測試：`npm test` 與 `py -3 -m unittest -q`。
 
 ## 參考工具的取捨
 
@@ -76,7 +95,7 @@ py -3 -m http.server 8766 --bind 127.0.0.1
 - `inspection-core.js`：純 JavaScript 比對演算法；不讀檔案名稱、標籤或真值。
 - `inspection-ui.js`：上傳、相機、ROI、參數、標框、匯出與狀態。
 - `factory-3d.js`：Three.js 產線示意，根據每張照片的檢查結果切換路徑。
-- `assembly.html`、`inspection.css`：一般產品檢查工作台；`index.html` 是晶圓主頁。
+- `assembly.html`、`inspection.css`：一般產品檢查工作台；`wafer.html` 是晶圓檢查頁，`index.html` 是企業總覽。
 - `tracking.html`、`app.js`、`simulate.py`：原有跨鏡頭在製品追蹤概念模擬器；其資料與延遲指標全部為合成值。
 
 ### 驗證與界線

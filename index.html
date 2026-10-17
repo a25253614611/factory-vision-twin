@@ -3,59 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#09101c">
-  <title>FlowTwin Wafer | 晶圓製程光學檢查</title>
-  <link rel="stylesheet" href="inspection.css">
-  <script type="importmap">
-    {"imports":{"three":"./vendor/three/three.module.js"}}
-  </script>
-  <script type="module" src="inspection-ui.js"></script>
-  <script type="module" src="wafer-3d.js"></script>
-  <script type="module" src="wafer-map.js"></script>
+  <meta name="theme-color" content="#07131c">
+  <title>FlowTwin Enterprise | 半導體企業數位孿生模擬</title>
+  <meta name="description" content="從客戶訂單、材料、晶圓製造、光學檢查到封裝交付的互動式半導體企業模擬。所有營運資料均為合成示意。">
+  <link rel="stylesheet" href="enterprise.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js"}}</script>
+  <script type="module" src="enterprise-ui.js"></script>
+  <script type="module" src="enterprise-3d.js"></script>
 </head>
-<body data-mode="wafer">
-  <div class="layout">
-    <aside class="side">
-      <a class="logo" href="./"><span class="logo-icon">F<span>·</span>T</span><span><strong>FlowTwin</strong><small>VISION OPERATIONS</small></span></a>
-      <div class="nav-label">WORKSPACE</div>
-      <nav aria-label="專案導覽">
-        <a class="nav-active" href="#station"><span>◉</span> 晶圓檢測</a>
-        <a href="#images"><span>◫</span> 影像比對</a>
-        <a href="#wafer-map"><span>◎</span> 缺陷位置圖</a>
-        <a href="#results"><span>▤</span> 批次紀錄</a>
-        <a href="assembly.html"><span>▣</span> 一般產品檢查</a>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="./" aria-label="FlowTwin 首頁"><span class="brand-mark">F<span>·</span>T</span><span><strong>FlowTwin</strong><small>SEMICONDUCTOR OPERATIONS</small></span></a>
+      <div class="nav-caption">ENTERPRISE SIMULATION</div>
+      <nav aria-label="主要導覽">
+        <a class="active" href="#overview"><span>◈</span> 企業總覽</a>
+        <a href="#campus"><span>▣</span> 3D 模擬廠區</a>
+        <a href="#flow"><span>⇢</span> 訂單與製程</a>
+        <a href="#lots"><span>◎</span> 批次與事件</a>
+      </nav>
+      <div class="nav-caption nav-second">WORKSTATIONS</div>
+      <nav aria-label="工作站導覽">
+        <a href="wafer.html"><span>◉</span> 晶圓影像檢查 <b>OPEN</b></a>
+        <a href="assembly.html"><span>▤</span> 產品外觀檢查</a>
         <a href="tracking.html"><span>◇</span> 跨鏡頭追蹤</a>
       </nav>
-      <div class="side-footer"><span class="green-dot"></span> BROWSER LOCAL ENGINE<br><small>照片留在本機 · 0 API token</small></div>
+      <div class="sidebar-bottom"><span class="status-dot"></span> LOCAL SIMULATION<br><small>合成資料 · 無模型 API 呼叫</small></div>
     </aside>
-    <main>
-      <header class="topbar"><div>SEMICONDUCTOR VISION <span>/</span> WAFER INSPECTION</div><div class="topbar-right"><span class="live-pill">● LOCAL PROCESSING</span><span class="top-avatar">FT</span></div></header>
-      <div class="content" id="station">
-        <div class="hero"><div><div class="eyebrow">SEMICONDUCTOR VISION / 3D FAB SIMULATION</div><h1>晶圓製程光學檢查</h1><p>模擬製程後晶圓拍照、疑似缺陷定位與人工覆核；可用合成範例，也可上傳固定視角的自有影像。</p></div><div class="hero-tag"><span>OPTICAL STATION</span><strong>WAFER REVIEW</strong><small>SYNTHETIC FAB · FIXED VIEW</small></div></div>
-        <div class="truth-banner"><span class="info-icon">i</span><div><strong>公開資料模擬</strong>　畫面、晶圓圖樣、瑕疵與製程順序皆為教學用合成示意，並非台積電設備、產品、資料或規格。實際檢查只做固定視角的參考圖差異提示；無法量測奈米尺度、判定良率或取代光學量測設備。3D 未連接真實工廠。</div></div>
-        <section class="stat-grid" aria-label="目前檢查結果">
-          <article class="stat"><span>當前判定</span><strong id="verdict">等待影像</strong><small>疑似差異需人工確認</small></article>
-          <article class="stat"><span>疑似區域</span><strong><span id="defectCount">—</span> <em>處</em></strong><small>相連差異像素群</small></article>
-          <article class="stat"><span>異常像素占比</span><strong><span id="anomalyPct">—</span> <em>%</em></strong><small>晶圓圓形 ROI 內的占比</small></article>
-          <article class="stat"><span>批次已檢查</span><strong><span id="inspectedCount">0</span> <em>張</em></strong><small>本次瀏覽器工作階段</small></article>
+    <main id="overview">
+      <header class="topbar"><span>FLOWTWIN <span class="slash">/</span> ENTERPRISE COMMAND CENTER</span><div><span class="top-live">● SIMULATION ONLINE</span><span class="top-avatar">FT</span></div></header>
+      <div class="main-content">
+        <div class="hero"><div><div class="eyebrow">PUBLIC DATA INSPIRED · FICTIONAL OPERATIONS</div><h1>看見一整家半導體企業如何運作</h1><p>從客戶訂單、設計協作與材料供應，到晶圓製造、光學檢查、封裝測試與交付。推進模擬時間，觀察批次、事件與 3D 廠區同步變化。</p></div><div class="hero-index"><span>07</span><small>CONNECTED FUNCTIONS<br>ONE SIMULATED FLOW</small></div></div>
+        <div class="disclosure"><span class="disclosure-icon">i</span><div><strong>非官方、非真實廠區</strong>　這是受公開半導體製造資料啟發的教學作品；公司、客戶、廠區配置、批次、時程、數值與事件均為虛構。沒有台積電內部資料或設備連線，也不代表其真實組織、產能或製程。</div></div>
+
+        <section class="metrics" aria-label="模擬營運數字">
+          <article><span>模擬時間</span><strong id="clockValue">D1 08:00</strong><small>每次推進 1 個模擬小時</small></article>
+          <article><span>在製批次</span><strong><span id="activeValue">4</span><em> / 4</em></strong><small>跨部門流轉中的訂單</small></article>
+          <article><span>已交付</span><strong><span id="deliveredValue">0</span><em> 批</em></strong><small id="onTimeValue">準時交付 0 批</small></article>
+          <article><span>待處理事件</span><strong id="alertValue">0</strong><small id="alertCaption">目前沒有批次暫停</small></article>
         </section>
-        <div class="primary-grid">
-          <section class="panel scene-panel" aria-labelledby="scene-title"><div class="panel-head"><div><div class="section-kicker">INTERACTIVE FAB VIEW</div><h2 id="scene-title">3D 晶圓製程檢查站</h2></div><span class="view-chip">拖曳旋轉 · 滾輪縮放</span></div><div class="scene-box"><canvas id="threeCanvas" aria-label="3D 晶圓製程與光學檢查站"></canvas><div id="sceneFallback" class="scene-fallback" hidden>此瀏覽器未能啟用 WebGL 2；影像檢查仍可正常使用。</div><div class="scene-overlay"><span class="scene-dot"></span> DEPOSITION <span>→</span> ETCH <span>→</span> OPTICAL REVIEW</div></div><div class="scene-foot"><span><i class="legend-dot teal"></i>未見異常</span><span><i class="legend-dot coral"></i>人工覆核</span><span class="scene-note">製程設備與搬運路徑為合成示意</span></div></section>
-          <section class="panel config-panel" aria-labelledby="config-title"><div class="panel-head"><div><div class="section-kicker">INSPECTION SETUP</div><h2 id="config-title">檢查設定</h2></div><span class="step-pill">01 / SETUP</span></div>
-            <div class="upload-field"><label for="referenceInput"><span>合格品參考圖</span><small>單張 JPG / PNG / WebP</small></label><input id="referenceInput" type="file" accept="image/png,image/jpeg,image/webp"><div class="file-note" id="referenceName">尚未選擇照片</div></div>
-            <div class="upload-field"><label for="sampleInput"><span>待檢照片</span><small>可一次選多張</small></label><input id="sampleInput" type="file" accept="image/png,image/jpeg,image/webp" multiple><div class="file-note" id="sampleName">尚未選擇照片</div></div>
-            <div class="demo-actions"><button id="demoDefect" type="button" class="outline">微粒示範</button><button id="demoScratch" type="button" class="outline">刮痕示範</button><button id="demoGood" type="button" class="outline">良品示範</button></div>
-            <div class="setting-row"><label for="thresholdInput">像素差異門檻 <strong id="thresholdValue">42</strong></label><input id="thresholdInput" type="range" min="10" max="110" value="42"><small>低：較敏感；高：較少誤報</small></div>
-            <div class="setting-columns"><div><label for="minAreaInput">最小瑕疵面積 <span>像素</span></label><input id="minAreaInput" type="number" min="1" max="10000" value="30"></div><div><label for="maxShiftInput">自動平移校正 <span>±像素</span></label><input id="maxShiftInput" type="number" min="0" max="16" value="8"></div></div>
-            <button id="inspectButton" type="button" class="cta" disabled>開始檢查</button>
-            <div class="camera-row"><button id="cameraButton" type="button" class="camera-btn">啟用本機相機</button><button id="captureButton" type="button" class="camera-btn" disabled>擷取並檢查</button><button id="stopCamera" type="button" class="camera-btn" disabled>停止相機</button></div><video id="cameraVideo" autoplay playsinline muted hidden></video>
-            <div class="config-hint">請用同一製程層、同一視角與照明的合格參考圖。圓形遮罩排除晶圓外背景；照片只在瀏覽器本機處理，無需 API key。</div>
-          </section>
+
+        <section class="controls" aria-labelledby="controls-title">
+          <div><div class="section-label">SCENARIO CONTROL</div><h2 id="controls-title">營運情境</h2><p id="scenarioDescription">觀察批次依序流轉，檢查端沒有預設異常。</p></div>
+          <div class="control-actions"><label for="scenarioSelect">選擇情境</label><select id="scenarioSelect"><option value="normal">正常運行</option><option value="particle">疑似微粒</option><option value="tool">設備停機</option><option value="urgent">急單插入</option></select><button id="stepButton" class="button-primary" type="button">推進 1 小時</button><button id="fastButton" type="button">推進 8 小時</button><button id="resetButton" type="button">重設</button></div>
+        </section>
+        <div id="incidentBar" class="incident-bar" hidden><span class="incident-pulse"></span><div><strong id="incidentTitle"></strong><small id="incidentText"></small></div><button id="resolveButton" type="button">完成處置</button></div>
+
+        <div class="visual-grid" id="campus">
+          <section class="panel campus-panel" aria-labelledby="campus-title"><div class="panel-heading"><div><div class="section-label">INTERACTIVE 3D CAMPUS</div><h2 id="campus-title">企業流程與廠區示意</h2></div><span class="panel-tag">拖曳旋轉 · 滾輪縮放 · 點選站點</span></div><div class="scene"><canvas id="enterpriseCanvas" aria-label="可旋轉的 3D 半導體企業流程圖"></canvas><div id="sceneFallback" class="scene-fallback" hidden>此裝置無法顯示 WebGL 3D；下方流程和批次模擬仍可使用。</div><div class="scene-badge">SYNTHETIC CAMPUS <span>●</span> LIVE STATE</div></div><div class="scene-legend"><span><i class="legend cyan"></i>運行中</span><span><i class="legend orange"></i>待人工處置</span><span><i class="legend green"></i>已交付</span><small>抽象模型，非實際廠區或設備比例</small></div></section>
+          <section class="panel detail-panel" aria-labelledby="detail-title"><div class="panel-heading"><div><div class="section-label">SELECTED FUNCTION</div><h2 id="detail-title">站點詳情</h2></div><span id="detailNumber" class="detail-number">01 / 07</span></div><div class="detail-visual"><span id="detailGlyph">◈</span><div><small id="detailEnglish">CUSTOMER</small><strong id="detailName">客戶與訂單</strong></div></div><p id="detailDescription">需求、交期與設計規格確認</p><div class="detail-lines"><div><span>目前批次</span><strong id="detailLots">1 批</strong></div><div><span>情境狀態</span><strong id="detailStatus">模擬運行中</strong></div><div><span>下一站</span><strong id="detailNext">設計協作</strong></div></div><a id="detailLink" class="detail-link" href="wafer.html" hidden>進入晶圓影像檢查工作台 ↗</a><div class="detail-note">點選 3D 建築或下方流程站點，切換部門視角。</div></section>
         </div>
-        <section class="panel image-section" id="images"><div class="panel-head"><div><div class="section-kicker">PIXEL EVIDENCE</div><h2>晶圓影像比對與疑似缺陷</h2></div><span class="step-pill">02 / REVIEW</span></div><div class="image-grid"><div class="image-card"><div class="image-label"><strong>同製程合格參考圖</strong><span>拖曳框選晶圓 ROI</span></div><div class="canvas-wrap"><canvas id="referenceCanvas" aria-label="合格晶圓參考圖，可拖曳選取檢查範圍"></canvas><div class="empty-state" id="referenceEmpty">上傳參考圖，或載入合成示範</div></div></div><div class="image-card"><div class="image-label"><strong>待檢晶圓與疑似差異</strong><span>紅框：人工覆核</span></div><div class="canvas-wrap"><canvas id="sampleCanvas" aria-label="待檢晶圓及差異區域"></canvas><div class="empty-state" id="sampleEmpty">檢查結果會顯示在這裡</div></div></div></div><div class="alignment-strip"><span id="alignment">位置校正：—</span><span id="brightness">亮度補償：—</span><span id="roiInfo">圓形 ROI：預設內部 90%</span><span id="imageDimensions">檢查解析度：—</span></div><div id="statusLine" class="status-line" role="status" aria-live="polite">請先載入合格晶圓與待檢影像。</div></section>
-        <section class="panel wafer-map-section" id="wafer-map"><div class="panel-head"><div><div class="section-kicker">WAFER LOCATION VIEW</div><h2>缺陷相對位置圖</h2></div><span class="step-pill">03 / LOCATION</span></div><div class="wafer-map-layout"><canvas id="waferMapCanvas" width="420" height="420" aria-label="晶圓上疑似差異的相對位置"></canvas><div class="wafer-map-copy"><strong id="mapSummary">等待檢查影像</strong><p>紅點依照片中的差異框中心，映射到圓形示意圖。此圖只顯示相對位置；未做晶粒對位、缺陷分類、良率推估或物理尺寸量測。</p><p>面試時可用它討論：缺陷是否沿邊緣集中？是否可能來自光源、對焦或製程漂移？仍須原始影像及設備資料驗證。</p></div></div></section>
-        <section class="panel results-section" id="results"><div class="panel-head"><div><div class="section-kicker">BATCH LOG</div><h2>本次檢查紀錄</h2></div><div class="export-actions"><button id="exportCsv" type="button" disabled>匯出 CSV</button><button id="exportJson" type="button" disabled>匯出 JSON</button></div></div><div class="table-wrap"><table><thead><tr><th>序號</th><th>檔名</th><th>判定</th><th>疑似區域</th><th>異常像素</th><th>平移校正</th></tr></thead><tbody id="batchRows"><tr><td colspan="6" class="table-empty">尚無檢查紀錄。先試試「微粒示範」。</td></tr></tbody></table></div><p class="results-note">「未見異常」只表示與同製程參考圖在目前門檻下沒有足夠差異；不能當成晶圓良率、產品規格或出貨判定。請用已標註的真實樣本校準並由人員覆核。</p></section>
-        <footer><span>FLOWTWIN WAFER · SYNTHETIC OPTICAL REVIEW</span><span><a href="https://github.com/a25253614611/factory-vision-twin/blob/main/WAFER_COURSE.md">晶圓檢測課程 ↗</a>　|　<a href="assembly.html">一般產品檢查 ↗</a>　|　<a href="tracking.html">跨鏡頭追蹤 ↗</a>　|　<a href="https://github.com/a25253614611/factory-vision-twin">GitHub ↗</a></span></footer>
+
+        <section class="panel flow-panel" id="flow" aria-labelledby="flow-title"><div class="panel-heading"><div><div class="section-label">END-TO-END OPERATIONS</div><h2 id="flow-title">從需求到交付</h2></div><span class="panel-tag">點選查看各部門</span></div><div id="stageFlow" class="stage-flow" role="group" aria-label="企業流程站點"></div><p class="panel-footnote">時間、批次與交期僅供練習跨部門溝通；不是實際製造執行系統（MES）、排程器或良率模型。</p></section>
+
+        <section class="panel support-panel" aria-labelledby="support-title"><div class="panel-heading"><div><div class="section-label">CROSS-FUNCTION OPERATIONS</div><h2 id="support-title">跨部門支援視角</h2></div><span class="panel-tag">隨模擬狀態更新</span></div><div class="support-grid"><article><span>01 / BUSINESS DEVELOPMENT</span><h3>客戶與商務</h3><strong id="supportBusiness">4 批需求追蹤中</strong><p>交期、優先級與客戶溝通</p></article><article><span>02 / PROCESS ENGINEERING</span><h3>製程工程</h3><strong id="supportEngineering">0 批返工</strong><p>製程變更與異常原因分析</p></article><article><span>03 / FACILITY & EQUIPMENT</span><h3>設備與廠務</h3><strong id="supportFacility">設備模擬正常</strong><p>停機、復機與可用性</p></article><article><span>04 / QUALITY OPERATIONS</span><h3>品質與追溯</h3><strong id="supportQuality">0 批待覆核</strong><p>疑似缺陷、人工覆核與紀錄</p></article></div><p class="panel-footnote">支援視角僅根據上方四個虛構批次推導，不代表真實公司部門編制或營運指標。</p></section>
+
+        <div class="data-grid" id="lots"><section class="panel lots-panel" aria-labelledby="lots-title"><div class="panel-heading"><div><div class="section-label">ORDER TRACEABILITY</div><h2 id="lots-title">虛構客戶與批次</h2></div><span class="panel-tag">4 個示範批次</span></div><div class="table-wrap"><table><thead><tr><th>批次／產品</th><th>虛構客戶</th><th>目前站點</th><th>交期</th><th>狀態</th></tr></thead><tbody id="lotRows"></tbody></table></div></section><section class="panel events-panel" aria-labelledby="events-title"><div class="panel-heading"><div><div class="section-label">OPERATIONS LOG</div><h2 id="events-title">營運事件</h2></div></div><ol id="eventList" class="event-list"></ol></section></div>
+        <section class="next-step"><div><div class="section-label">DEEP DIVE / COMPUTER VISION</div><h2>進入晶圓檢查站</h2><p>在公司層級看到「疑似微粒」事件後，可進一步展示影像差異定位、圓形 ROI、人工覆核和 3D 分流。</p></div><a href="wafer.html">開啟影像檢查工作台 <span>↗</span></a></section>
+        <footer><span>FLOWTWIN ENTERPRISE · SYNTHETIC DEMONSTRATION</span><span><a href="ENTERPRISE_COURSE.md">學習與面試課程</a> · <a href="https://github.com/a25253614611/factory-vision-twin">GitHub</a></span></footer>
       </div>
     </main>
   </div>
