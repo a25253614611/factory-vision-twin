@@ -244,8 +244,22 @@ function optical(root, detail, rotors, metrology) {
     box(detail, .7, .06, .08, -.33, 1.47, -.35, finish.steel);
     pipe(detail, [-.58, 1.47, -.35], [-.58, 1.06, -.35], .035, finish.violet);
   } else {
+    // AOI teaching model: front wafer load port, enclosed XY stage, ring light and camera service rail.
+    box(root, .42, .35, .22, -.53, .78, .83, finish.steel);
+    box(root, .34, .06, .16, -.53, .96, .88, finish.dark);
+    box(root, .32, .045, .2, -.53, .62, .86, finish.alloy);
+    for (const y of [.72, .79, .86]) box(detail, .26, .018, .07, -.53, y, .96, finish.wafer, false);
+    box(detail, 1.04, .045, .08, -.05, .78, .26, finish.alloy, false);
+    box(detail, .08, .06, .76, -.05, .82, .22, finish.steel, false);
+    box(detail, .22, .05, .25, -.05, .88, .36, finish.dark, false);
+    torus(detail, .265, .022, .22, 1.55, -.29, finish.teal);
+    for (const x of [-.34, .34]) box(detail, .055, .3, .07, x, 1.11, -.37, finish.steel, false);
+    box(detail, .64, .045, .09, 0, 1.27, -.37, finish.alloy, false);
+    cyl(detail, .11, .11, .035, .22, 1.73, -.29, finish.glass, 20, false);
     box(detail, 1.11, .06, .07, 0, 1.49, -.44, finish.alloy);
     for (const x of [-.49, .49]) box(detail, .055, .35, .055, x, 1.29, -.44, finish.teal);
+    box(detail, .24, .28, .045, .76, 1.02, -.12, finish.recess, false);
+    for (let i = 0; i < 3; i++) box(detail, .13, .016, .018, .76, .92 + i * .07, -.088, finish.teal, false);
   }
   vent(detail, -.57, .45, .69, .26, 4);
 }

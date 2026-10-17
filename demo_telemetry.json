@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "source": "SYNTHETIC_JSON_DEMO",
+  "records": [
+    {"minute":0,"equipmentId":"CH-01","status":"running","signals":{"temp":{"value":22.0,"unit":"°C","quality":"good"},"vibration":{"value":0.32,"unit":"mm/s","quality":"good"},"power":{"value":78.3,"unit":"kW","quality":"good"},"throughput":{"value":0,"unit":"片/時","quality":"good"}}},
+    {"minute":0,"equipmentId":"LTH-01","status":"running","signals":{"temp":{"value":23.2,"unit":"°C","quality":"good"},"vibration":{"value":0.19,"unit":"mm/s","quality":"good"},"power":{"value":59.9,"unit":"kW","quality":"good"},"throughput":{"value":33.1,"unit":"片/時","quality":"good"}}},
+    {"minute":5,"equipmentId":"CH-01","status":"alarm","signals":{"temp":{"value":31.1,"unit":"°C","quality":"good"},"vibration":{"value":0.34,"unit":"mm/s","quality":"good"},"power":{"value":96.3,"unit":"kW","quality":"good"},"throughput":{"value":0,"unit":"片/時","quality":"good"}}},
+    {"minute":10,"equipmentId":"LTH-01","status":"warning","signals":{"temp":{"value":26.2,"unit":"°C","quality":"good"},"vibration":{"value":0.20,"unit":"mm/s","quality":"good"},"power":{"value":66.5,"unit":"kW","quality":"good"},"throughput":{"value":18.9,"unit":"片/時","quality":"good"}}},
+    {"minute":15,"equipmentId":"LTH-01","status":"warning","signals":{"temp":{"value":null,"unit":"°C","quality":"missing"},"vibration":{"value":0.21,"unit":"mm/s","quality":"good"},"power":{"value":65.1,"unit":"kW","quality":"good"},"throughput":{"value":18.1,"unit":"片/時","quality":"good"}}},
+    {"minute":20,"equipmentId":"CH-01","status":"down","signals":{"temp":{"value":34.2,"unit":"°C","quality":"good"},"vibration":{"value":0.36,"unit":"mm/s","quality":"good"},"power":{"value":28.1,"unit":"kW","quality":"good"},"throughput":{"value":0,"unit":"片/時","quality":"good"}}}
+  ]
+}

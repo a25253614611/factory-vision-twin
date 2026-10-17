@@ -1,4 +1,5 @@
 import { inspectImages, normalizeRoi } from "./inspection-core.js";
+import { publishDemoInspection } from "./inspection-bridge.js";
 
 const $ = (id) => document.getElementById(id);
 const MAX_SIDE = 640;
@@ -169,7 +170,7 @@ async function loadWaferDemo(kind) {
     const sampleFile = new File([await sampleResponse.blob()], files[kind][1], { type: "image/png" });
     await setReference(referenceFile);
     const data = await readImageFile(sampleFile, reference.width, reference.height);
-    samples = [{ name: sampleFile.name, data, demo: true }];
+    samples = [{ name: sampleFile.name, data, demo: true, kind }];
     $("referenceName").textContent = referenceFile.name + " · 合成示範";
     $("sampleName").textContent = sampleFile.name + " · 合成示範";
     $("sampleEmpty").hidden = true;
@@ -297,7 +298,7 @@ async function runInspection() {
   busy = true;
   updateReady();
   const opts = settings();
-  let completed = 0, failures = 0, lastError = "";
+  let completed = 0, failures = 0, synced = 0, lastError = "";
   try {
     for (const sample of samples) {
       try {
@@ -314,6 +315,13 @@ async function runInspection() {
           verdict: result.verdict, name: sample.name, boxes: result.boxes,
           width: reference.width, height: reference.height
         } }));
+        if (isWafer && sample.demo && sample.kind) {
+          try {
+            publishDemoInspection({ kind: sample.kind, verdict: result.verdict, defectCount: result.regions });
+            $("monitorSync").hidden = false;
+            synced++;
+          } catch { /* Image inspection remains usable when browser storage is unavailable. */ }
+        }
         completed++;
       } catch (error) {
         failures++;
@@ -325,7 +333,8 @@ async function runInspection() {
     busy = false;
     updateReady();
   }
-  status("完成 " + completed + " 張；" + failures + " 張未處理。" + (lastError ? "最後錯誤：" + lastError + "。" : "紅框標示疑似差異，請人工核對。"), failures > 0);
+  status("完成 " + completed + " 張；" + failures + " 張未處理。" + (synced ? ` ${synced} 筆合成結果已同步至整廠監控。` : "") +
+    (lastError ? "最後錯誤：" + lastError + "。" : "紅框標示疑似差異，請人工核對。"), failures > 0);
 }
 
 function download(name, content, mime) {

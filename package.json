@@ -3,9 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test test_inspection.mjs test_enterprise.mjs test_shift.mjs test_monitor.mjs"
+    "test": "node --test test_inspection.mjs test_enterprise.mjs test_shift.mjs test_monitor.mjs",
+    "test:browser": "node browser_smoke.mjs"
   },
   "dependencies": {
     "three": "0.186.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1"
   }
 }

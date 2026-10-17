@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#091721">
   <meta name="description" content="觀察虛構晶圓工廠 6 個區域、24 台機台的即時模擬訊號、告警與故障傳播。">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>FlowTwin Monitor | 3D 整廠設備監控</title>
   <link rel="stylesheet" href="monitor.css">
+  <link rel="stylesheet" href="monitor-enhancements.css">
   <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js"}}</script>
   <script type="module" src="monitor-ui.js"></script>
 </head>
@@ -20,12 +22,13 @@
     <main>
       <section class="hero"><div><div class="eyebrow">FACTORY OPERATIONS / 24 MACHINES / 6 BAYS</div><h1>整個工廠，哪台機器出了問題？</h1><p>從公用系統到光學檢查，觀察每台機器的狀態、溫度、振動、功率與產出；注入異常，追查跨區域的源頭並看維修後如何恢復。</p></div><div class="hero-step">01 注入異常 <b>→</b> 02 找源頭 <b>→</b> 03 派工復原</div></section>
       <div class="disclosure"><strong>虛構教學模擬</strong>　所有廠區、機台、訊號、警報與產能數值均由瀏覽器生成；無台積電資料、即時設備連線或遠端控制。操作不會影響任何真實機器，也不使用 AI 模型 API。</div>
+      <a class="jump-monitor" href="#sceneTitle">直接看 3D 整廠圖 ↓</a>
       <section class="kpis" aria-label="全廠即時摘要">
         <article><span>模擬時間</span><strong id="timeValue">08:00</strong><small>每次推進 5 分鐘</small></article>
         <article><span>正常運轉</span><strong><b id="runningValue">24</b><em> / 24</em></strong><small>各區域合成設備</small></article>
         <article><span>待處理警示</span><strong class="warn" id="alertsValue">0</strong><small id="alertCaption">目前未偵測到異常</small></article>
         <article><span>模擬瓶頸線速</span><strong><b id="capacityValue">—</b><em> 片/時</em></strong><small>取各製程區估計能力的最小值</small></article>
-        <article><span>機台用電</span><strong><b id="energyValue">—</b><em> kW</em></strong><small>目前合成訊號總和</small></article>
+        <article><span>機台總功率</span><strong><b id="energyValue">—</b><em> kW</em></strong><small>瞬時功率，並非累積用電量</small></article>
       </section>
 
       <section class="control-bar" aria-label="模擬控制">
@@ -34,10 +37,20 @@
       </section>
 
       <div id="incidentBanner" class="incident-banner" hidden><div><span>ACTIVE INCIDENT / ROOT CAUSE CHALLENGE</span><strong id="incidentTitle"></strong><p id="incidentDescription"></p></div><div class="incident-actions"><button id="hintButton" type="button">查看線索</button><b id="challengeScore"></b></div></div>
+      <section class="workflow-panel" aria-label="資料與驗收操作">
+        <div><strong id="modeStatus">資料來源：瀏覽器合成模擬</strong><span id="qualityStatus">每步 5 分鐘；訊號時戳與品質顯示於機台證據</span></div>
+        <div class="workflow-actions"><button id="replayDemoButton" type="button">載入合成 JSON 回放</button><label class="file-action">匯入本機 JSON<input id="replayInput" type="file" accept="application/json,.json"></label><button id="exportReportButton" type="button">匯出驗收報告 JSON</button></div>
+      </section>
 
       <div class="workspace">
         <section class="scene-panel" aria-labelledby="sceneTitle"><div class="panel-title"><div><span class="eyebrow">INTERACTIVE 3D FACTORY</span><h2 id="sceneTitle">六區機台狀態圖</h2></div><small>點設備選取 · 雙擊近看 · 拖曳旋轉</small></div><div class="scene-tools" aria-label="3D 視角"><button id="overviewButton" class="active" type="button">◫ 全廠俯瞰</button><button id="focusButton" type="button">⌕ 近看所選機台</button><span id="viewStatus">可 360° 旋轉並查看設備外觀</span></div><div class="scene-wrap"><canvas id="plantCanvas" aria-label="可點選六個區域與二十四台設備的 3D 工廠"></canvas><div id="sceneFallback" class="fallback" hidden>此裝置無法顯示 3D。下方區域與機台清單仍可操作。</div><div class="scene-stamp">FICTIONAL FAB · LIVE SIMULATION</div></div><div class="legend"><span><i class="running"></i> 正常</span><span><i class="warning"></i> 預警</span><span><i class="alarm"></i> 告警</span><span><i class="down"></i> 停機</span><span><i class="maintenance"></i> 維修</span><span><i class="idle"></i> 暫停</span></div></section>
         <aside class="detail-panel" aria-labelledby="detailTitle"><div class="panel-title"><div><span class="eyebrow">EQUIPMENT INSPECTOR</span><h2 id="detailTitle">機台診斷</h2></div><span class="detail-index" id="detailIndex">01 / 24</span></div><div class="detail-content"><div class="machine-heading"><div><span id="machineZone">公用系統</span><h3 id="machineId">CH-01</h3><p id="machineName">冷卻機 A</p></div><strong id="machineStatus" class="status-pill running">正常運轉</strong></div><p id="machineReason" class="machine-reason">數值在本情境的模擬基準內</p><div class="model-parts"><span>3D 外觀構件</span><p id="modelParts">選擇機台後顯示。</p><small>原創教學模型，非原廠 CAD 或實際設備規格。</small></div><div class="signals"><div><span>溫度</span><strong id="tempValue">—</strong><small>°C</small></div><div><span>振動</span><strong id="vibrationValue">—</strong><small>mm/s</small></div><div><span>功率</span><strong id="powerValue">—</strong><small>kW</small></div><div><span id="fourthLabel">產出</span><strong id="fourthValue">—</strong><small id="fourthUnit">片/時</small></div></div><div class="trend-heading"><strong>近 30 筆訊號趨勢</strong><div class="trend-tabs"><button class="active" data-signal="temp" type="button">溫度</button><button data-signal="vibration" type="button">振動</button><button data-signal="power" type="button">功率</button></div></div><canvas id="trendCanvas" width="580" height="180" aria-label="所選機台的時間序列趨勢圖"></canvas><div class="dependency" id="dependencyInfo">跨區域相依關係會顯示在這裡。</div><div class="detail-actions"><button id="diagnoseButton" class="primary-button" type="button" disabled>判定為異常源頭／派工</button><button id="stopButton" type="button">模擬暫停機台</button></div><p class="detail-note">此處的派工、暫停與復機只修改瀏覽器中的合成狀態。</p></div></aside>
+      </div>
+
+      <div class="evidence-grid">
+        <section id="evidencePanel" class="evidence-panel" aria-label="故障時間與訊號證據"><strong>異常時間證據</strong><div id="evidenceList">注入異常後顯示源頭與受影響機台的首次異常時間。</div></section>
+        <section id="aoiQueue" class="aoi-panel" aria-label="AOI 批次覆核"><div><strong>AOI 合成晶圓覆核</strong><span id="aoiCount">待覆核 0 批 · 暫停 0 批</span><small>只同步合成示範結果，不保存影像像素。</small></div><a href="wafer.html">前往晶圓影像檢查 →</a><div id="aoiRows" class="aoi-rows">尚無合成示範批次。</div></section>
+        <section class="telemetry-panel" aria-label="所選機台訊號品質"><strong id="telemetryTitle">AOI-01 訊號來源</strong><div id="telemetryRows">載入中…</div></section>
       </div>
 
       <section class="zones-panel" aria-labelledby="zonesTitle"><div class="section-heading"><div><span class="eyebrow">BAY HEALTH</span><h2 id="zonesTitle">六個生產區域</h2></div><small>點區域可篩選機台</small></div><div id="zoneGrid" class="zone-grid"></div></section>

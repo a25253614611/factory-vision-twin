@@ -23,7 +23,7 @@ export function createMonitorWorld(canvas, callbacks = {}) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 900 ? 1.25 : 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   const scene = new THREE.Scene(); scene.background = new THREE.Color(0x0b2631);
   const camera = new THREE.OrthographicCamera(-20, 20, 15, -15, .1, 110);
   const target = new THREE.Vector3(0, .3, 0);
@@ -66,7 +66,7 @@ export function createMonitorWorld(canvas, callbacks = {}) {
     box(group, 9.42, .035, .14, 0, .055, -4.25, metal);
     for (const x of [-4.65, 4.65]) box(group, .1, .04, 8.5, x, .06, 0, metal);
     const zoneLabel = new THREE.Sprite(label(`${zone.code} · ${zone.name}`, "#c0f6ed", "#173440", 30));
-    zoneLabel.position.set(0, 2.7, -3.85); zoneLabel.scale.set(5.0, .94, 1); group.add(zoneLabel);
+    zoneLabel.position.set(0, 2.9, -3.85); zoneLabel.scale.set(5.7, 1.07, 1); group.add(zoneLabel);
     bayLabels.push(zoneLabel);
     bayBorders.set(zone.id, border);
   }
@@ -93,8 +93,12 @@ export function createMonitorWorld(canvas, callbacks = {}) {
     const ring = new THREE.Mesh(new THREE.RingGeometry(1.04, 1.14, 32), new THREE.MeshBasicMaterial({ color: 0x7be8d2, transparent: true, opacity: .0, side: THREE.DoubleSide }));
     ring.rotation.x = -Math.PI / 2; ring.position.y = .18; group.add(ring);
     const idLabel = new THREE.Sprite(label(spec.id, "#e9ffff", "#1b3e49", 44));
-    idLabel.position.set(0, 2.41, .75); idLabel.scale.set(1.85, .35, 1); group.add(idLabel);
-    group.userData.beacon = beacon; group.userData.ring = ring; group.userData.idLabel = idLabel;
+    idLabel.position.set(0, 2.47, .75); idLabel.scale.set(2.16, .41, 1); group.add(idLabel);
+    const alertLabel = new THREE.Sprite(label("!", "#fff3cf", "#a04931", 58));
+    alertLabel.position.set(.72, 2.72, 0); alertLabel.scale.set(.52, .52, 1);
+    alertLabel.visible = false; group.add(alertLabel);
+    group.userData.beacon = beacon; group.userData.ring = ring;
+    group.userData.idLabel = idLabel; group.userData.alertLabel = alertLabel;
   }
   const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
   let selected = EQUIPMENT[0].id, renderWidth = 0, renderHeight = 0;
@@ -148,6 +152,7 @@ export function createMonitorWorld(canvas, callbacks = {}) {
       const group = machines.get(machine.id);
       group.userData.beacon.material.color.setHex(STATUS_COLORS[machine.status]);
       group.userData.ring.material.color.setHex(machine.status === "running" ? 0x8ff5dc : STATUS_COLORS[machine.status]);
+      group.userData.alertLabel.visible = ["warning", "alarm", "down"].includes(machine.status);
       group.userData.operating = ["running", "warning", "alarm"].includes(machine.status);
     }
     for (const zone of ZONES) bayBorders.get(zone.id).material.color.setHex(STATUS_COLORS[zoneStatus(state, zone.id)]);

@@ -38,10 +38,12 @@ const SPECS = [
 export const EQUIPMENT = SPECS.map(([id, name, zone, type, baseTemp, baseVibration, basePower, capacity], index) =>
   ({ id, name, zone, type, baseTemp, baseVibration, basePower, capacity, index }));
 
+export const SIGNAL_UNITS = Object.freeze({ temp: "°C", vibration: "mm/s", power: "kW", throughput: "片/時", lux: "lux" });
+
 export const INCIDENTS = {
-  cooling: { name: "冷卻迴路漂移", description: "公用系統與部分製程區同時升溫。找出最早異常的源頭機台。", root: "CH-01" },
-  vibration: { name: "蝕刻區振動", description: "蝕刻區產能下降，部分機台振動升高。比對訊號找出源頭。", root: "ETC-02" },
-  illumination: { name: "檢查照明波動", description: "檢查區告警增加，觀察影像站照度與鄰近機台的佇列。", root: "AOI-01" }
+  cooling: { name: "冷卻迴路漂移", description: "公用系統先升溫，影響會在後續時間傳到製程區。比較首次異常時間找源頭。", root: "CH-01", impacts: { "LTH-01": 5, "LTH-02": 5, "ETC-01": 10, "CVD-01": 10 } },
+  vibration: { name: "蝕刻區振動", description: "源頭振動先升高；下游節拍與待處理量隨後變化。", root: "ETC-02", impacts: { "ETC-01": 5, "ETC-03": 5, "AOI-01": 10 } },
+  illumination: { name: "檢查照明波動", description: "AOI 光源先偏移；後續可能影響鄰近檢查站的待覆核量。", root: "AOI-01", impacts: { "AOI-02": 5, "MET-01": 10 } }
 };
 
 const round = (value, digits = 1) => Number(value.toFixed(digits));
@@ -65,7 +67,7 @@ function reading(spec, minute, incident, manualStop = false) {
       if (spec.id === "CH-01") {
         temp += 9 + elapsed * .23; power *= 1.23; status = elapsed >= 20 ? "down" : "alarm";
         reason = "出水溫度與耗電同步上升；跨區域溫度異常的可能源頭";
-      } else if (["LTH-01", "LTH-02", "ETC-01", "CVD-01"].includes(spec.id)) {
+      } else if (elapsed >= (INCIDENTS.cooling.impacts[spec.id] ?? Infinity)) {
         temp += Math.min(8, 2.2 + elapsed * .15); throughput *= .57; status = "warning";
         reason = "受冷卻迴路波動影響，溫度偏離模擬基準"; dependency = "CH-01";
       }
@@ -73,7 +75,7 @@ function reading(spec, minute, incident, manualStop = false) {
       if (spec.id === "ETC-02") {
         vibration += 2.1 + elapsed * .035; throughput *= .35; status = elapsed >= 15 ? "down" : "alarm";
         reason = "振動高於模擬基準，伴隨產能下降";
-      } else if (["ETC-01", "ETC-03", "AOI-01"].includes(spec.id)) {
+      } else if (elapsed >= (INCIDENTS.vibration.impacts[spec.id] ?? Infinity)) {
         throughput *= .65; status = "warning";
         reason = "上游節拍失衡，待處理佇列正在增加"; dependency = "ETC-02";
       }
@@ -81,9 +83,9 @@ function reading(spec, minute, incident, manualStop = false) {
       if (spec.id === "AOI-01") {
         lux += 150 + elapsed * 2; throughput *= .41; status = elapsed >= 20 ? "down" : "alarm";
         reason = "照度漂移，影像差異候選與人工覆核量可能增加";
-      } else if (["AOI-02", "MET-01"].includes(spec.id)) {
+      } else if (elapsed >= (INCIDENTS.illumination.impacts[spec.id] ?? Infinity)) {
         throughput *= .61; status = "warning";
-        reason = "AOI 轉送的人工覆核佇列增加"; dependency = "AOI-01";
+        reason = "受到 AOI-01 照明異常影響，估計處理量下降"; dependency = "AOI-01";
       }
     }
   }
@@ -106,9 +108,46 @@ function applyReadings(state) {
   state.machines = state.machines.map((machine) => {
     const spec = EQUIPMENT[machine.index];
     const current = reading(spec, state.minute, activeIncident, machine.manualStop);
+    const metrics = ["temp", "vibration", "power", "throughput", ...(spec.type === "aoi" ? ["lux"] : [])];
+    current.telemetry = Object.fromEntries(metrics.map((metric) => [metric,
+      { equipmentId: spec.id, metric, value: current[metric], unit: SIGNAL_UNITS[metric],
+        source: "BROWSER_SIMULATION", observedMinute: state.minute, simulatedTimestamp: clock(state.minute), quality: "good" }]));
+    if (state.replay) {
+      const sample = state.replay.records.filter((item) => item.equipmentId === spec.id && item.minute <= state.minute).at(-1);
+      if (sample) {
+        const age = state.minute - sample.minute;
+        current.status = sample.status;
+        current.reason = `${state.replay.source} JSON 回放；最近一筆在 ${clock(sample.minute)}`;
+        for (const metric of metrics) {
+          const value = sample.signals[metric];
+          current.telemetry[metric] = { equipmentId: spec.id, metric, value: value.value, unit: value.unit,
+            source: state.replay.source, observedMinute: sample.minute, simulatedTimestamp: clock(sample.minute),
+            quality: value.quality === "missing" ? "missing" : age > 10 ? "stale" : "good" };
+          if (value.quality === "good") current[metric] = value.value;
+        }
+      }
+    }
+    const pending = state.inspections.filter((item) => item.decision === "pending").length;
+    const held = state.inspections.filter((item) => item.decision === "held").length;
+    if (!state.replay && spec.id === "AOI-01" && (pending || held) && current.status === "running") {
+      current.status = "warning";
+      current.reason = `${pending} 批待人工覆核、${held} 批已暫停；均為合成晶圓示範`;
+      current.throughput = round(current.throughput * (held ? .5 : .7));
+    }
+    const abnormal = ["warning", "alarm", "down"].includes(current.status);
+    const caseAffected = activeIncident && (spec.id === INCIDENTS[activeIncident.type].root ||
+      state.minute - activeIncident.started >= (INCIDENTS[activeIncident.type].impacts[spec.id] ?? Infinity));
+    const firstAnomalyAt = caseAffected && abnormal ? (machine.firstAnomalyAt ?? state.minute) : machine.firstAnomalyAt;
+    if (caseAffected && abnormal && machine.firstAnomalyAt == null) {
+      state.caseLog.at(-1).firstSeen[spec.id] = state.minute;
+      addEvent(state, `${spec.id} 首次異常；${current.reason}`, current.status === "down" ? "critical" : "warning");
+    }
     const point = { minute: state.minute, temp: current.temp, vibration: current.vibration,
-      power: current.power, throughput: current.throughput, lux: current.lux };
-    return { ...machine, ...current, history: [...machine.history, point].slice(-30) };
+      power: current.power, throughput: current.throughput, lux: current.lux, status: current.status,
+      telemetry: current.telemetry,
+      quality: Object.fromEntries(Object.entries(current.telemetry).map(([metric, meta]) => [metric, meta.quality])) };
+    const history = machine.history.at(-1)?.minute === state.minute ? [...machine.history.slice(0, -1), point] : [...machine.history, point];
+    return { ...machine, ...current, firstAnomalyAt, history: history.slice(-30) };
   });
 }
 
@@ -119,7 +158,8 @@ function addEvent(state, text, severity = "info") {
 
 export function createPlant() {
   const state = { minute: 0, incident: null, score: null, attempts: 0,
-    machines: EQUIPMENT.map((spec) => ({ index: spec.index, id: spec.id, manualStop: false, history: [] })),
+    inspections: [], caseLog: [], replay: null,
+    machines: EQUIPMENT.map((spec) => ({ index: spec.index, id: spec.id, manualStop: false, firstAnomalyAt: null, history: [] })),
     events: [{ minute: 0, text: "24 台合成設備已開始監看；可選情境注入故障", severity: "info" }] };
   applyReadings(state);
   return state;
@@ -129,14 +169,18 @@ export function advancePlant(state, steps = 1) {
   if (!Number.isInteger(steps) || steps < 1 || steps > 72) throw new Error("推進步數必須介於 1 至 72");
   const next = structuredClone(state);
   for (let i = 0; i < steps; i++) {
+    if (next.replay && next.minute >= next.replay.endMinute) break;
     next.minute += 5;
     if (next.incident?.repairing && next.minute >= next.incident.repairUntil) {
       const root = INCIDENTS[next.incident.type].root;
+      next.caseLog.at(-1).repairedAt = next.minute;
       next.incident = null;
       addEvent(next, `${root} 模擬維修完成；跨區域訊號回到基準`, "success");
     }
     const before = new Map(next.machines.map((machine) => [machine.id, machine.status]));
     applyReadings(next);
+    if (!next.incident && next.caseLog.at(-1)?.repairedAt === next.minute)
+      next.caseLog.at(-1).recovered = plantSummary(next);
     for (const machine of next.machines) {
       if (before.get(machine.id) === "alarm" && machine.status === "down")
         addEvent(next, `${machine.id} 停機；請查閱訊號與影響範圍`, "critical");
@@ -148,10 +192,14 @@ export function advancePlant(state, steps = 1) {
 export function injectIncident(state, type) {
   if (!INCIDENTS[type]) throw new Error("未知異常情境");
   if (state.incident) throw new Error("請先處理目前的異常");
+  if (state.replay) throw new Error("資料回放模式請先重設，才能注入模擬異常");
   if (state.machines.find((machine) => machine.id === INCIDENTS[type].root)?.manualStop)
     throw new Error("情境源頭機台已手動暫停，請先恢復運轉");
   const next = structuredClone(state);
   next.incident = { type, started: next.minute, repairing: false, repairUntil: null };
+  next.machines.forEach((machine) => { machine.firstAnomalyAt = null; });
+  next.caseLog.push({ type, started: next.minute, root: INCIDENTS[type].root,
+    baseline: plantSummary(state), firstSeen: {}, attempts: 0, diagnosis: null, repairedAt: null, recovered: null });
   next.score = null; next.attempts = 0;
   addEvent(next, `${INCIDENTS[type].name}：${INCIDENTS[type].description}`, "warning");
   applyReadings(next);
@@ -166,18 +214,21 @@ export function diagnosePlant(state, machineId) {
   const root = INCIDENTS[next.incident.type].root;
   if (machineId !== root) {
     next.attempts++;
+    next.caseLog.at(-1).attempts = next.attempts;
     addEvent(next, `${machineId} 為受影響設備；請比對最早異常訊號與相依關係`, "warning");
     return next;
   }
   next.incident.repairing = true;
   next.incident.repairUntil = next.minute + 10;
   next.score = Math.max(0, 100 - Math.floor((next.minute - next.incident.started) / 5) * 5 - next.attempts * 15);
+  next.caseLog.at(-1).diagnosis = { machineId, minute: next.minute, score: next.score };
   addEvent(next, `找出源頭 ${machineId}；已派模擬維修，約 10 分鐘後完成`, "success");
   applyReadings(next);
   return next;
 }
 
 export function setMachineStopped(state, machineId, stopped) {
+  if (state.replay) throw new Error("資料回放模式不可修改機台狀態；請先重設");
   const next = structuredClone(state);
   const machine = next.machines.find((item) => item.id === machineId);
   if (!machine) throw new Error("未知機台");
@@ -191,15 +242,62 @@ export function setMachineStopped(state, machineId, stopped) {
   return next;
 }
 
+export function receiveInspection(state, report) {
+  if (state.replay) throw new Error("資料回放模式不可匯入新的 AOI 示範結果；請先重設");
+  if (!report || !/^SIM-[A-Z0-9-]{1,30}$/.test(report.lotId) ||
+      !["review", "clear"].includes(report.verdict) ||
+      !Number.isInteger(report.defectCount) || report.defectCount < 0 || report.defectCount > 5000 ||
+      !["particle", "scratch", "clear"].includes(report.kind)) throw new Error("AOI 示範結果格式不正確");
+  if (state.inspections.some((item) => item.lotId === report.lotId)) return state;
+  const next = structuredClone(state);
+  const item = { lotId: report.lotId, machineId: "AOI-01", kind: report.kind,
+    defectCount: report.defectCount, verdict: report.verdict, checkedAt: report.checkedAt,
+    receivedAt: next.minute, decision: report.verdict === "review" ? "pending" : "released",
+    decidedAt: report.verdict === "review" ? null : next.minute };
+  next.inspections.unshift(item);
+  next.inspections = next.inspections.slice(0, 30);
+  addEvent(next, `${item.lotId} / AOI-01：${item.defectCount} 處疑似差異；${item.decision === "pending" ? "待人工覆核" : "未見異常"}`, item.decision === "pending" ? "warning" : "info");
+  applyReadings(next);
+  return next;
+}
+
+export function decideInspection(state, lotId, decision) {
+  if (state.replay) throw new Error("資料回放模式不可處置批次；請先重設");
+  if (!["released", "held"].includes(decision)) throw new Error("未知的人工處置");
+  const next = structuredClone(state);
+  const item = next.inspections.find((entry) => entry.lotId === lotId);
+  if (!item || !["pending", "held"].includes(item.decision) || (item.decision === "held" && decision === "held"))
+    throw new Error("此批次沒有待處置的模擬檢查結果");
+  item.decision = decision;
+  item.decidedAt = next.minute;
+  addEvent(next, `${lotId} 已人工${decision === "held" ? "暫停批次" : "覆核放行"}（僅限合成示範）`, decision === "held" ? "warning" : "success");
+  applyReadings(next);
+  return next;
+}
+
+export function startReplay(document) {
+  if (!document?.records?.length || !Number.isInteger(document.endMinute)) throw new Error("尚未驗證的回放資料");
+  const next = createPlant();
+  next.replay = structuredClone(document);
+  addEvent(next, `載入 ${document.source} 合成 JSON 回放；未連線真實設備`, "info");
+  applyReadings(next);
+  return next;
+}
+
 export function plantSummary(state) {
   const counts = { running: 0, warning: 0, alarm: 0, down: 0, maintenance: 0, idle: 0 };
   for (const machine of state.machines) counts[machine.status]++;
   const zoneRates = ZONES.filter((zone) => zone.id !== "facility").map((zone) =>
     state.machines.filter((machine) => EQUIPMENT[machine.index].zone === zone.id)
       .reduce((total, machine) => total + machine.throughput, 0));
+  const dataGap = state.machines.some((machine) => ["missing", "stale"].includes(machine.telemetry?.power?.quality) ||
+    ["missing", "stale"].includes(machine.telemetry?.throughput?.quality));
   return { ...counts, alertCount: counts.warning + counts.alarm + counts.down,
-    energyKw: Math.round(state.machines.reduce((total, machine) => total + machine.power, 0)),
-    capacityWph: Math.round(Math.min(...zoneRates)),
+    pendingReview: state.inspections.filter((item) => item.decision === "pending").length,
+    heldLots: state.inspections.filter((item) => item.decision === "held").length,
+    dataGap, replayCoverage: state.machines.filter((machine) => machine.telemetry?.temp?.source === state.replay?.source).length,
+    powerKw: dataGap ? null : Math.round(state.machines.reduce((total, machine) => total + machine.power, 0)),
+    capacityWph: dataGap ? null : Math.round(Math.min(...zoneRates)),
     time: clock(state.minute) };
 }
 
