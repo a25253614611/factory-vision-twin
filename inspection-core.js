@@ -2,6 +2,14 @@
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 
+function insideCircle(x, y, roi, circleMask) {
+  if (!circleMask) return true;
+  const radius = Math.min(roi.w, roi.h) / 2;
+  const dx = (x + 0.5 - roi.x - roi.w / 2) / radius;
+  const dy = (y + 0.5 - roi.y - roi.h / 2) / radius;
+  return dx * dx + dy * dy <= 1;
+}
+
 export function normalizeRoi(roi, width, height) {
   const fallback = {
     x: Math.round(width * 0.05), y: Math.round(height * 0.05),
@@ -58,7 +66,7 @@ function edges(gray, width, height) {
   return result;
 }
 
-function estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift) {
+function estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift, circleMask) {
   if (!maxShift) return { x: 0, y: 0, alignmentScore: 0 };
   const pad = maxShift + 2;
   const x0 = Math.max(roi.x + pad, pad);
@@ -70,10 +78,12 @@ function estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift)
   let samples = 0;
   for (let y = y0; y < y1; y += 6) {
     for (let x = x0; x < x1; x += 6) {
+      if (!insideCircle(x, y, roi, circleMask)) continue;
       referenceEnergy += referenceEdge[y * width + x];
       samples++;
     }
   }
+  if (!samples) return { x: 0, y: 0, alignmentScore: 0 };
   if (referenceEnergy / samples < 2) return { x: 0, y: 0, alignmentScore: 0 };
   let best = { x: 0, y: 0, alignmentScore: Infinity };
   for (let dy = -maxShift; dy <= maxShift; dy++) {
@@ -81,6 +91,7 @@ function estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift)
       let sum = 0;
       for (let y = y0; y < y1; y += 6) {
         for (let x = x0; x < x1; x += 6) {
+          if (!insideCircle(x, y, roi, circleMask)) continue;
           const first = referenceEdge[y * width + x];
           const second = sampleEdge[(y + dy) * width + x + dx];
           sum += Math.min(Math.abs(first - second), 100);
@@ -93,10 +104,11 @@ function estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift)
   return { ...best, alignmentScore: Number(best.alignmentScore.toFixed(2)) };
 }
 
-function estimateBrightness(referenceGray, sampleGray, width, height, roi, offset) {
+function estimateBrightness(referenceGray, sampleGray, width, height, roi, offset, circleMask) {
   const differences = [];
   for (let y = roi.y + 2; y < roi.y + roi.h - 2; y += 5) {
     for (let x = roi.x + 2; x < roi.x + roi.w - 2; x += 5) {
+      if (!insideCircle(x, y, roi, circleMask)) continue;
       const sx = x + offset.x;
       const sy = y + offset.y;
       if (sx < 0 || sx >= width || sy < 0 || sy >= height) continue;
@@ -167,18 +179,20 @@ export function inspectImages(referenceRGBA, sampleRGBA, width, height, options 
   const threshold = clamp(Number(options.threshold ?? 42), 5, 150);
   const minArea = clamp(Math.round(Number(options.minArea ?? 30)), 1, 10000);
   const maxShift = clamp(Math.round(Number(options.maxShift ?? 8)), 0, 16);
+  const circleMask = Boolean(options.circleMask);
   const referenceGray = grayscale(referenceRGBA, pixelCount);
   const sampleGray = grayscale(sampleRGBA, pixelCount);
   const referenceEdge = edges(blurred(referenceGray, width, height), width, height);
   const sampleEdge = edges(blurred(sampleGray, width, height), width, height);
-  const offset = estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift);
-  const brightnessShift = estimateBrightness(referenceGray, sampleGray, width, height, roi, offset);
+  const offset = estimateOffset(referenceEdge, sampleEdge, width, height, roi, maxShift, circleMask);
+  const brightnessShift = estimateBrightness(referenceGray, sampleGray, width, height, roi, offset, circleMask);
   const difference = new Uint8Array(pixelCount);
   const mask = new Uint8Array(pixelCount);
   let comparedPixels = 0;
   const border = 2;
   for (let y = roi.y + border; y < roi.y + roi.h - border; y++) {
     for (let x = roi.x + border; x < roi.x + roi.w - border; x++) {
+      if (!insideCircle(x, y, roi, circleMask)) continue;
       const sx = x + offset.x, sy = y + offset.y;
       if (sx < 0 || sx >= width || sy < 0 || sy >= height) continue;
       const first = (y * width + x) * 4;
@@ -206,6 +220,7 @@ export function inspectImages(referenceRGBA, sampleRGBA, width, height, options 
     brightnessShift,
     threshold,
     minArea,
+    maskMode: circleMask ? "circle" : "rectangle",
     roi,
     difference,
     mask

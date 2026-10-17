@@ -5,6 +5,7 @@ const MAX_SIDE = 640;
 const MAX_BATCH = 25;
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const isWafer = document.body.dataset.mode === "wafer";
 let reference = null;
 let samples = [];
 let records = [];
@@ -13,6 +14,7 @@ let currentRecord = null;
 let cameraStream = null;
 let dragging = null;
 let busy = false;
+let demoLoading = false;
 
 function status(message, error = false) {
   $("statusLine").textContent = message;
@@ -76,6 +78,7 @@ async function setReference(file) {
     $("brightness").textContent = "亮度補償：—";
     roi = normalizeRoi(null, width, height);
     currentRecord = null;
+    window.dispatchEvent(new Event("flowtwin:reset"));
     $("referenceName").textContent = file.name + " · " + bitmap.width + "×" + bitmap.height;
     $("referenceEmpty").hidden = true;
     renderReference();
@@ -129,6 +132,7 @@ function loadDemo(missing) {
   $("sampleInput").value = "";
   records = [];
   renderLog();
+  window.dispatchEvent(new Event("flowtwin:reset"));
   const first = makeCanvas(640, 400);
   const second = makeCanvas(640, 400);
   drawDemoBoard(first.getContext("2d"), false);
@@ -147,6 +151,37 @@ function loadDemo(missing) {
   runInspection();
 }
 
+async function loadWaferDemo(kind) {
+  if (busy || demoLoading) return;
+  demoLoading = true;
+  const files = {
+    particle: ["wafer_particle.png", "合成晶圓_微粒.png"],
+    scratch: ["wafer_scratch.png", "合成晶圓_刮痕.png"],
+    clear: ["wafer_reference.png", "合成晶圓_良品.png"]
+  };
+  try {
+    status("載入合成晶圓影像中……");
+    const [referenceResponse, sampleResponse] = await Promise.all([
+      fetch("sample_images/wafer_reference.png"), fetch("sample_images/" + files[kind][0])
+    ]);
+    if (!referenceResponse.ok || !sampleResponse.ok) throw new Error("示範影像未載入；請確認已用本機伺服器啟動網站。");
+    const referenceFile = new File([await referenceResponse.blob()], "合成晶圓_參考.png", { type: "image/png" });
+    const sampleFile = new File([await sampleResponse.blob()], files[kind][1], { type: "image/png" });
+    await setReference(referenceFile);
+    const data = await readImageFile(sampleFile, reference.width, reference.height);
+    samples = [{ name: sampleFile.name, data, demo: true }];
+    $("referenceName").textContent = referenceFile.name + " · 合成示範";
+    $("sampleName").textContent = sampleFile.name + " · 合成示範";
+    $("sampleEmpty").hidden = true;
+    updateReady();
+    await runInspection();
+  } catch (error) {
+    status(error.message || String(error), true);
+  } finally {
+    demoLoading = false;
+  }
+}
+
 function renderReference() {
   if (!reference) return;
   const canvas = $("referenceCanvas");
@@ -159,9 +194,15 @@ function renderReference() {
     ctx.strokeStyle = "#69edc8";
     ctx.lineWidth = 2;
     ctx.setLineDash([9, 5]);
-    ctx.strokeRect(roi.x + 1, roi.y + 1, roi.w - 2, roi.h - 2);
+    if (isWafer) {
+      ctx.beginPath();
+      ctx.arc(roi.x + roi.w / 2, roi.y + roi.h / 2, Math.min(roi.w, roi.h) / 2 - 1, 0, Math.PI * 2);
+      ctx.stroke();
+    } else {
+      ctx.strokeRect(roi.x + 1, roi.y + 1, roi.w - 2, roi.h - 2);
+    }
     ctx.restore();
-    $("roiInfo").textContent = "ROI：" + roi.x + "," + roi.y + " · " + roi.w + "×" + roi.h;
+    $("roiInfo").textContent = (isWafer ? "圓形 ROI 外接框：" : "ROI：") + roi.x + "," + roi.y + " · " + roi.w + "×" + roi.h;
   }
 }
 
@@ -206,6 +247,7 @@ function settings() {
     threshold: Number($("thresholdInput").value),
     minArea: Number($("minAreaInput").value),
     maxShift: Number($("maxShiftInput").value),
+    circleMask: isWafer,
     roi
   };
 }
@@ -218,7 +260,7 @@ function renderLog() {
     const cell = document.createElement("td");
     cell.colSpan = 6;
     cell.className = "table-empty";
-    cell.textContent = "尚無檢查紀錄。先試試「載入缺件示範」。";
+    cell.textContent = isWafer ? "尚無檢查紀錄。先試試「微粒示範」。" : "尚無檢查紀錄。先試試「載入缺件示範」。";
     row.appendChild(cell);
     body.appendChild(row);
   }
@@ -268,7 +310,10 @@ async function runInspection() {
         currentRecord = record;
         renderSample(record);
         renderLog();
-        window.dispatchEvent(new CustomEvent("flowtwin:inspection", { detail: { verdict: result.verdict, name: sample.name } }));
+        window.dispatchEvent(new CustomEvent("flowtwin:inspection", { detail: {
+          verdict: result.verdict, name: sample.name, boxes: result.boxes,
+          width: reference.width, height: reference.height
+        } }));
         completed++;
       } catch (error) {
         failures++;
@@ -305,6 +350,7 @@ function exportRows() {
     anomaly_percent: record.result.anomalyPercent, offset_x: record.result.offset.x,
     offset_y: record.result.offset.y, brightness_shift: record.result.brightnessShift,
     threshold: record.result.threshold, min_area: record.result.minArea,
+    mask_mode: record.result.maskMode,
     roi: record.result.roi, boxes: record.result.boxes
   }));
 }
@@ -312,9 +358,14 @@ function exportRows() {
 function pointOnReference(event) {
   const canvas = $("referenceCanvas");
   const rect = canvas.getBoundingClientRect();
+  const scale = Math.min(rect.width / canvas.width, rect.height / canvas.height);
+  const drawnWidth = canvas.width * scale;
+  const drawnHeight = canvas.height * scale;
+  const left = rect.left + (rect.width - drawnWidth) / 2;
+  const top = rect.top + (rect.height - drawnHeight) / 2;
   return {
-    x: Math.max(0, Math.min(canvas.width - 1, Math.round((event.clientX - rect.left) * canvas.width / rect.width))),
-    y: Math.max(0, Math.min(canvas.height - 1, Math.round((event.clientY - rect.top) * canvas.height / rect.height)))
+    x: Math.max(0, Math.min(canvas.width - 1, Math.round((event.clientX - left) / scale))),
+    y: Math.max(0, Math.min(canvas.height - 1, Math.round((event.clientY - top) / scale)))
   };
 }
 
@@ -401,13 +452,14 @@ function init() {
     updateReady();
     if (files.length) status("已選 " + files.length + " 張待檢照片。按「開始檢查」。");
   });
-  $("demoDefect").addEventListener("click", () => loadDemo(true));
-  $("demoGood").addEventListener("click", () => loadDemo(false));
+  $("demoDefect").addEventListener("click", () => isWafer ? loadWaferDemo("particle") : loadDemo(true));
+  $("demoGood").addEventListener("click", () => isWafer ? loadWaferDemo("clear") : loadDemo(false));
+  if (isWafer) $("demoScratch").addEventListener("click", () => loadWaferDemo("scratch"));
   $("inspectButton").addEventListener("click", runInspection);
   $("thresholdInput").addEventListener("input", () => { $("thresholdValue").textContent = $("thresholdInput").value; });
   $("exportJson").addEventListener("click", () => download("flowtwin-inspection.json", JSON.stringify(exportRows(), null, 2), "application/json"));
   $("exportCsv").addEventListener("click", () => {
-    const columns = ["sequence", "reference_filename", "filename", "checked_at", "verdict", "regions", "anomaly_percent", "offset_x", "offset_y", "brightness_shift", "threshold", "min_area"];
+    const columns = ["sequence", "reference_filename", "filename", "checked_at", "verdict", "regions", "anomaly_percent", "offset_x", "offset_y", "brightness_shift", "threshold", "min_area", "mask_mode"];
     const csv = [columns.join(","), ...exportRows().map((record) => columns.map((key) => csvCell(record[key])).join(","))].join("\r\n");
     download("flowtwin-inspection.csv", "\ufeff" + csv, "text/csv;charset=utf-8");
   });

@@ -1,6 +1,33 @@
-# FlowTwin Vision｜3D 產線瑕疵檢查工作台
+# FlowTwin Wafer｜3D 晶圓製程光學檢查展示
 
-**[立即開啟線上版](https://a25253614611.github.io/factory-vision-twin/)** · [7 天實作課](INSPECTION_COURSE.md) · [原有跨鏡頭追蹤展示](https://a25253614611.github.io/factory-vision-twin/tracking.html) · [原有四週課程](COURSE.md)
+**[開啟晶圓檢測線上版](https://a25253614611.github.io/factory-vision-twin/)** · [晶圓檢測 7 天課](WAFER_COURSE.md) · [一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html) · [跨鏡頭追蹤](https://a25253614611.github.io/factory-vision-twin/tracking.html)
+
+以「晶圓製程後光學檢查」為面試場景的**公開資料原型**。主頁包含可旋轉的 3D 製程檢查站、合成晶圓的微粒／刮痕／良品示範、圓形 ROI 參考圖比對、疑似差異標框、相對位置圖與批次匯出。使用者也能上傳固定視角、同製程層的自有照片。照片在瀏覽器本機處理，執行時不呼叫模型 API。
+
+| 3D 晶圓檢查站 | 微粒示範與標框 |
+| --- | --- |
+| ![3D 晶圓檢查站](wafer-3d.png) | ![合成晶圓微粒示範](wafer-defect.png) |
+
+**範圍說明：**本專案沒有台積電內部影像、機台參數、製程規格或設備連線，也不宣稱與台積電合作。公開資料僅用來選擇合理的教學場景。這個原型做的是固定視角參考圖差異提示，無法檢測奈米尺度、推估良率或自動決定晶圓合格。3D 是製程狀態示意，不是與實體同步的數位孿生。[半導體產業協會的製程介紹](https://www.semiconductors.org/semiconductors-101/how-are-semiconductors-made/stage-3-front-end-manufacturing/)說明了沉積、蝕刻和量測檢查在製造流程中的角色；[台積電 2025 年報](https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch5.pdf)提到電腦視覺用於晶圓瑕疵檢查，但本作品不重現其系統。
+
+## 晶圓版使用方式
+
+1. 線上先按「微粒示範」「刮痕示範」「良品示範」，比較標框、相對位置圖與 3D REVIEW／PASS 路徑。示範影像由 `sample_images/generate_wafer.py` 產生，並非真實晶圓。
+2. 使用自己的照片時，先上傳同製程層、相同相機視角和照明下的合格參考圖，再上傳待檢圖。待檢圖最多 25 張，單張 20 MB 以下，格式為 JPG／PNG／WebP。晶圓需置中；可在參考圖拖曳 ROI 外接框。
+3. 系統以小範圍平移校正、全域亮度補償、圓形遮罩、像素門檻和相連差異區域找出疑似位置。調整門檻後重跑；CSV／JSON 匯出含框座標與參數，但不含原始照片。
+4. 記錄誤報與漏檢，請人工覆核。上線前須用取得授權的真實影像，分製程層、缺陷類型、機台、批次與光線條件驗證。
+
+本機啟動：在 repo 目錄執行 `py -3 -m http.server 8766 --bind 127.0.0.1`，開啟 <http://127.0.0.1:8766/>。前端不需 `npm install`；Three.js 已置於 `vendor/three/`。程式測試：`npm test` 與 `py -3 -m unittest -q`。
+
+## 參考工具的取捨
+
+- [jyax/3d-factory-digital-twin](https://github.com/jyax/3d-factory-digital-twin)展示 3D 資產監控與即時資料架構，原專案使用 Orillusion、Vue、MQTT、MongoDB。此作品只參考展示思路，未複製其程式或引入伺服器堆疊。
+- [Online3DViewer](https://github.com/kovacsv/Online3DViewer)可檢視 STEP、IFC、glTF 等模型；未來若有**授權的 CAD 資產**可用於預覽。本版模型由 Three.js 程式生成，沒有必要額外載入 CAD viewer。
+- [three.signal-line](https://github.com/Tankerxyz/three.signal-line)可繪製流動訊號線。本版僅需簡單搬運動線，因此用原有 Three.js 動畫實作，減少載入依賴。
+
+## 一般產品檢查（保留）
+
+**[開啟一般產品檢查](https://a25253614611.github.io/factory-vision-twin/assembly.html)** · [通用檢查 7 天課](INSPECTION_COURSE.md) · [跨鏡頭追蹤四週課](COURSE.md)
 
 給固定相機、固定產品姿態的初步瑕疵檢查使用。提供合格品參考圖與待檢照片後，瀏覽器會做位置校正、全域亮度補償、ROI 內的像素差異比對，以及相連差異區域標框。可批次檢查最多 25 張、匯出 CSV／JSON，或在允許相機權限後擷取照片。檢查結果會驅動可旋轉、縮放的 Three.js 3D 產線分流示意。
 
@@ -10,7 +37,7 @@
 
 **這是可操作的影像檢查原型，不是已驗證的工業自動判退系統。** 它沒有神經網路、深度相機、PLC／MES 連線或真實設備控制。「未見異常」只代表在目前設定下與參考圖沒有足夠差異；「需人工覆核」也可能是光線、角度或反光造成。3D 是檢查站的視覺化，不會從照片重建產品的 3D 幾何。
 
-## 立即使用
+### 立即使用
 
 線上版可直接按「載入缺件示範」，看到缺少固定螺絲的合成範例。接著按「載入合格示範」比較結果。頁面部署在 GitHub Pages；執行影像比對時不呼叫模型 API，因此**執行時模型 token 用量為 0**。照片由瀏覽器本機讀取與處理，不上傳到本專案的伺服器；只有使用者主動匯出的 CSV／JSON 會存到自己的裝置。
 
@@ -20,7 +47,7 @@
 py -3 -m http.server 8766 --bind 127.0.0.1
 ```
 
-開啟 <http://127.0.0.1:8766/>。不要直接雙擊 `index.html`，瀏覽器的 ES module 與相機安全限制可能讓功能失效。沒有 `py` 時可用 `python -m http.server 8766 --bind 127.0.0.1`。**不需要執行 `npm install` 才能使用網頁**：Three.js 0.186.1 已放在 `vendor/three/`，頁面沒有執行時 CDN 依賴。
+開啟 <http://127.0.0.1:8766/assembly.html>。不要直接雙擊 HTML，瀏覽器的 ES module 與相機安全限制可能讓功能失效。沒有 `py` 時可用 `python -m http.server 8766 --bind 127.0.0.1`。**不需要執行 `npm install` 才能使用網頁**：Three.js 0.186.1 已放在 `vendor/three/`，頁面沒有執行時 CDN 依賴。
 
 ### 用自己的照片
 
@@ -32,7 +59,7 @@ py -3 -m http.server 8766 --bind 127.0.0.1
 
 `sample_images/reference.png` 與 `sample_images/missing_fastener.png` 是**本專案生成的合成照片**，可練習實際檔案上傳流程。重新生成：`py -3 sample_images/generate.py`。
 
-## 系統流程
+### 系統流程
 
 ```text
 合格品參考圖 + 待檢照／相機擷取
@@ -49,10 +76,10 @@ py -3 -m http.server 8766 --bind 127.0.0.1
 - `inspection-core.js`：純 JavaScript 比對演算法；不讀檔案名稱、標籤或真值。
 - `inspection-ui.js`：上傳、相機、ROI、參數、標框、匯出與狀態。
 - `factory-3d.js`：Three.js 產線示意，根據每張照片的檢查結果切換路徑。
-- `index.html`、`inspection.css`：主工作台。
+- `assembly.html`、`inspection.css`：一般產品檢查工作台；`index.html` 是晶圓主頁。
 - `tracking.html`、`app.js`、`simulate.py`：原有跨鏡頭在製品追蹤概念模擬器；其資料與延遲指標全部為合成值。
 
-## 驗證與界線
+### 驗證與界線
 
 ```powershell
 npm test
@@ -63,14 +90,14 @@ py -3 -m unittest -q
 
 此方法適合零件缺漏、位置明顯變化、外觀色塊異常等固定視角問題的初步篩查。微小刮痕、鏡面反光、可變形物件、大角度轉動與多品項混線容易造成漏檢或誤報。實際上線前應取得授權的良品與瑕疵品資料，分缺陷類型、班別、光線、相機量測漏檢率、誤報／班、人工覆核時間與端到端延遲，和客戶共同訂驗收門檻；先影子運行，再考慮任何設備整合。
 
-## 面試 90 秒展示
+### 面試 90 秒展示
 
 1. **需求**：客戶反映裝配缺件與人工目檢負擔，先確認漏檢的損失、節拍、產品型號與相機條件。
 2. **操作**：用「載入缺件示範」看紅框和 3D REVIEW 路徑；再用「載入合格示範」看 PASS。展示可調門檻與 ROI，並說明光線／位置補償的用途。
 3. **取捨**：門檻低可能多抓到差異，也增加覆核；門檻高可降低誤報，但可能漏掉細小缺陷。真正的取捨要用客戶標註資料做混淆矩陣與成本評估。
 4. **落地**：固定治具、蒐集標註資料、離線回放、現場影子運行、量測 P95 延遲與人工覆核量；3D 示意在整合前不能當作設備控制證據。
 
-## 官方資源與授權
+### 官方資源與授權
 
 - [Three.js 安裝與 import map](https://threejs.org/manual/pages/installation.html)、[WebGLRenderer 文件](https://threejs.org/docs/pages/WebGLRenderer)：3D 實作參考。本 repo 放入的 Three.js 0.186.1 依其 [MIT 授權](vendor/three/LICENSE)使用。
 - [OpenCV Template Matching 教學](https://docs.opencv.org/5.0/tutorials/imgproc/histograms/template_matching/template_matching.html)：了解傳統圖像定位；本專案演算法為自己的 JavaScript 實作，**沒有內嵌 OpenCV**。

@@ -56,6 +56,22 @@ test("ROI ignores a defect outside the inspection zone", () => {
   assert.equal(result.verdict, "clear");
 });
 
+test("wafer circle mask excludes corners but keeps central defects", () => {
+  const outside = image();
+  for (let y = 6; y < 14; y++) {
+    for (let x = 7; x < 15; x++) {
+      const index = (y * width + x) * 4;
+      outside[index] = outside[index + 1] = outside[index + 2] = 240;
+    }
+  }
+  const options = { threshold: 35, minArea: 15, maxShift: 0 };
+  assert.equal(inspectImages(image(), outside, width, height, options).verdict, "review");
+  assert.equal(inspectImages(image(), outside, width, height, { ...options, circleMask: true }).verdict, "clear");
+  const central = inspectImages(image(), image(true), width, height, { ...options, circleMask: true });
+  assert.equal(central.verdict, "review");
+  assert.equal(central.maskMode, "circle");
+});
+
 test("input size mismatch is rejected", () => {
   assert.throws(() => inspectImages(image(), new Uint8Array(5), width, height), RangeError);
 });

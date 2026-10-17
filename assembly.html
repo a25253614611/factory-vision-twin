@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09101c">
+  <title>FlowTwin Vision | 3D 產線瑕疵檢查</title>
+  <link rel="stylesheet" href="inspection.css">
+  <script type="importmap">
+    {"imports":{"three":"./vendor/three/three.module.js"}}
+  </script>
+  <script type="module" src="inspection-ui.js"></script>
+  <script type="module" src="factory-3d.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="side">
+      <a class="logo" href="./"><span class="logo-icon">F<span>·</span>T</span><span><strong>FlowTwin</strong><small>VISION OPERATIONS</small></span></a>
+      <div class="nav-label">WORKSPACE</div>
+      <nav aria-label="專案導覽">
+        <a class="nav-active" href="#station"><span>▣</span> 3D 瑕疵檢查</a>
+        <a href="index.html"><span>◉</span> 晶圓檢測</a>
+        <a href="#images"><span>◫</span> 影像比對</a>
+        <a href="#results"><span>▤</span> 批次紀錄</a>
+        <a href="tracking.html"><span>◇</span> 跨鏡頭追蹤</a>
+      </nav>
+      <div class="side-footer"><span class="green-dot"></span> BROWSER LOCAL ENGINE<br><small>照片留在本機 · 0 API token</small></div>
+    </aside>
+    <main>
+      <header class="topbar"><div>FACTORY VISION <span>/</span> INSPECTION STATION</div><div class="topbar-right"><span class="live-pill">● LOCAL PROCESSING</span><span class="top-avatar">FT</span></div></header>
+      <div class="content" id="station">
+        <div class="hero"><div><div class="eyebrow">INDUSTRIAL VISION / 3D DIGITAL TWIN</div><h1>產線瑕疵檢查工作台</h1><p>上傳一張合格品參考照片，再批次檢查同款產品；疑似瑕疵會標框並連動 3D 分流視圖。</p></div><div class="hero-tag"><span>STATION 01</span><strong>REFERENCE INSPECTION</strong><small>FIXED CAMERA · FIXED PRODUCT</small></div></div>
+        <div class="truth-banner"><span class="info-icon">i</span><div><strong>可用範圍</strong>　這是實際在瀏覽器執行的參考圖差異檢查，適合固定相機、固定姿態與同款產品的初步人工覆核。3D 畫面是檢查結果驅動的示意動畫；沒有連接 PLC、MES 或實體產線，也沒有神經網路模型。</div></div>
+        <section class="stat-grid" aria-label="目前檢查結果">
+          <article class="stat"><span>當前判定</span><strong id="verdict">等待影像</strong><small>疑似差異需人工確認</small></article>
+          <article class="stat"><span>疑似區域</span><strong><span id="defectCount">—</span> <em>處</em></strong><small>相連差異像素群</small></article>
+          <article class="stat"><span>異常像素占比</span><strong><span id="anomalyPct">—</span> <em>%</em></strong><small>檢查 ROI 內的占比</small></article>
+          <article class="stat"><span>批次已檢查</span><strong><span id="inspectedCount">0</span> <em>張</em></strong><small>本次瀏覽器工作階段</small></article>
+        </section>
+        <div class="primary-grid">
+          <section class="panel scene-panel" aria-labelledby="scene-title"><div class="panel-head"><div><div class="section-kicker">INTERACTIVE TWIN</div><h2 id="scene-title">3D 產線分流視圖</h2></div><span class="view-chip">拖曳旋轉 · 滾輪縮放</span></div><div class="scene-box"><canvas id="threeCanvas" aria-label="3D 產線與分流視圖"></canvas><div id="sceneFallback" class="scene-fallback" hidden>此瀏覽器未能啟用 WebGL 2；影像檢查仍可正常使用。</div><div class="scene-overlay"><span class="scene-dot"></span> CAMERA 01 <span>→</span> INSPECT <span>→</span> PASS / REVIEW</div></div><div class="scene-foot"><span><i class="legend-dot teal"></i>合格路徑</span><span><i class="legend-dot coral"></i>人工覆核路徑</span><span class="scene-note">3D 僅為示意，非設備控制</span></div></section>
+          <section class="panel config-panel" aria-labelledby="config-title"><div class="panel-head"><div><div class="section-kicker">INSPECTION SETUP</div><h2 id="config-title">檢查設定</h2></div><span class="step-pill">01 / SETUP</span></div>
+            <div class="upload-field"><label for="referenceInput"><span>合格品參考圖</span><small>單張 JPG / PNG / WebP</small></label><input id="referenceInput" type="file" accept="image/png,image/jpeg,image/webp"><div class="file-note" id="referenceName">尚未選擇照片</div></div>
+            <div class="upload-field"><label for="sampleInput"><span>待檢照片</span><small>可一次選多張</small></label><input id="sampleInput" type="file" accept="image/png,image/jpeg,image/webp" multiple><div class="file-note" id="sampleName">尚未選擇照片</div></div>
+            <div class="demo-actions"><button id="demoDefect" type="button" class="outline">載入缺件示範</button><button id="demoGood" type="button" class="outline">載入合格示範</button></div>
+            <div class="setting-row"><label for="thresholdInput">像素差異門檻 <strong id="thresholdValue">42</strong></label><input id="thresholdInput" type="range" min="10" max="110" value="42"><small>低：較敏感；高：較少誤報</small></div>
+            <div class="setting-columns"><div><label for="minAreaInput">最小瑕疵面積 <span>像素</span></label><input id="minAreaInput" type="number" min="1" max="10000" value="30"></div><div><label for="maxShiftInput">自動平移校正 <span>±像素</span></label><input id="maxShiftInput" type="number" min="0" max="16" value="8"></div></div>
+            <button id="inspectButton" type="button" class="cta" disabled>開始檢查</button>
+            <div class="camera-row"><button id="cameraButton" type="button" class="camera-btn">啟用本機相機</button><button id="captureButton" type="button" class="camera-btn" disabled>擷取並檢查</button><button id="stopCamera" type="button" class="camera-btn" disabled>停止相機</button></div><video id="cameraVideo" autoplay playsinline muted hidden></video>
+            <div class="config-hint">建議使用固定治具、相同視角與曝光。照片只在此瀏覽器中處理，無需 API key。</div>
+          </section>
+        </div>
+        <section class="panel image-section" id="images"><div class="panel-head"><div><div class="section-kicker">PIXEL EVIDENCE</div><h2>影像比對與瑕疵定位</h2></div><span class="step-pill">02 / REVIEW</span></div><div class="image-grid"><div class="image-card"><div class="image-label"><strong>合格品參考圖</strong><span>拖曳框選 ROI</span></div><div class="canvas-wrap"><canvas id="referenceCanvas" aria-label="合格品參考圖，可拖曳選取檢查範圍"></canvas><div class="empty-state" id="referenceEmpty">上傳參考圖，或載入示範影像</div></div></div><div class="image-card"><div class="image-label"><strong>待檢圖與疑似瑕疵</strong><span>紅框：需人工覆核</span></div><div class="canvas-wrap"><canvas id="sampleCanvas" aria-label="待檢照片及差異區域"></canvas><div class="empty-state" id="sampleEmpty">檢查結果會顯示在這裡</div></div></div></div><div class="alignment-strip"><span id="alignment">位置校正：—</span><span id="brightness">亮度補償：—</span><span id="roiInfo">ROI：預設內部 90%</span><span id="imageDimensions">檢查解析度：—</span></div><div id="statusLine" class="status-line" role="status" aria-live="polite">請先載入合格品與待檢照片。</div></section>
+        <section class="panel results-section" id="results"><div class="panel-head"><div><div class="section-kicker">BATCH LOG</div><h2>本次檢查紀錄</h2></div><div class="export-actions"><button id="exportCsv" type="button" disabled>匯出 CSV</button><button id="exportJson" type="button" disabled>匯出 JSON</button></div></div><div class="table-wrap"><table><thead><tr><th>序號</th><th>檔名</th><th>判定</th><th>疑似區域</th><th>異常像素</th><th>平移校正</th></tr></thead><tbody id="batchRows"><tr><td colspan="6" class="table-empty">尚無檢查紀錄。先試試「載入缺件示範」。</td></tr></tbody></table></div><p class="results-note">「未見異常」只表示與參考圖在目前門檻下沒有足夠差異；不等同產品保證合格。請用已標註的真實良品與瑕疵品校準門檻。</p></section>
+        <footer><span>FLOWTWIN VISION · FIXED-CAMERA REFERENCE INSPECTION</span><span><a href="https://github.com/a25253614611/factory-vision-twin/blob/main/INSPECTION_COURSE.md">7 天實作課 ↗</a>　|　<a href="tracking.html">跨鏡頭追蹤展示 ↗</a>　|　<a href="https://github.com/a25253614611/factory-vision-twin">GitHub 原始碼 ↗</a></span></footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
