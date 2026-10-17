@@ -1,13 +1,14 @@
 import { EQUIPMENT, ZONES, INCIDENTS, createPlant, advancePlant, injectIncident,
   diagnosePlant, setMachineStopped, plantSummary, plantClock, zoneStatus } from "./monitor-core.js";
 import { createMonitorWorld } from "./monitor-3d.js";
+import { MODEL_PARTS } from "./machine-catalog.js";
 
 const $ = (id) => document.getElementById(id);
 const statusNames = { running: "正常運轉", warning: "預警", alarm: "異常告警", down: "停機", maintenance: "維修中", idle: "手動暫停" };
 const severity = { down: 5, alarm: 4, warning: 3, maintenance: 2, idle: 1, running: 0 };
 const storageKey = "flowtwin-equipment-monitor-v1";
 let state = restore() || createPlant();
-let selectedId = "CMP-01", zoneFilter = "all", statusFilter = "all", search = "", signal = "temp";
+let selectedId = "AOI-01", zoneFilter = "all", statusFilter = "all", search = "", signal = "temp", viewMode = "overview";
 let world = null, autoTimer = null;
 
 function restore() {
@@ -29,6 +30,17 @@ function commit(next) {
   state = next; persist(); render();
 }
 function reportError(error) { window.alert(error.message); }
+function renderViewControls() {
+  $("overviewButton").classList.toggle("active", viewMode === "overview");
+  $("focusButton").classList.toggle("active", viewMode === "machine");
+  $("viewStatus").textContent = viewMode === "machine" ? `${selectedId} 外觀近看 · 拖曳可 360° 旋轉` :
+    viewMode === "zone" ? "區域聚焦 · 點全廠俯瞰返回" : "可 360° 旋轉並查看設備外觀";
+}
+function focusZone(id) {
+  viewMode = id ? "zone" : "overview";
+  world?.focusZone(id);
+  renderViewControls();
+}
 
 function renderKpis() {
   const summary = plantSummary(state);
@@ -62,7 +74,7 @@ function renderZones() {
   $("zoneGrid").querySelectorAll("button").forEach((button) => button.addEventListener("click", () => {
     zoneFilter = zoneFilter === button.dataset.zone ? "all" : button.dataset.zone;
     $("zoneFilter").value = zoneFilter;
-    world?.focusZone(zoneFilter === "all" ? null : zoneFilter);
+    focusZone(zoneFilter === "all" ? null : zoneFilter);
     renderZones(); renderRows();
   }));
 }
@@ -125,6 +137,7 @@ function renderDetail() {
   $("machineStatus").textContent = statusNames[machine.status];
   $("machineStatus").className = `status-pill ${machine.status}`;
   $("machineReason").textContent = machine.reason;
+  $("modelParts").textContent = MODEL_PARTS[spec.type];
   $("tempValue").textContent = machine.temp.toFixed(1);
   $("vibrationValue").textContent = machine.vibration.toFixed(2);
   $("powerValue").textContent = machine.power.toFixed(1);
@@ -157,14 +170,27 @@ function renderEvents() {
 }
 
 function render() {
-  renderKpis(); renderZones(); renderRows(); renderDetail(); renderEvents();
+  renderKpis(); renderZones(); renderRows(); renderDetail(); renderEvents(); renderViewControls();
   world?.setState(state); world?.select(selectedId);
+  if (viewMode === "machine") world?.focusMachine(selectedId);
 }
-function selectMachine(id) { if (!state.machines.some((machine) => machine.id === id)) return; selectedId = id; world?.select(id); renderRows(); renderDetail(); }
+function selectMachine(id) {
+  if (!state.machines.some((machine) => machine.id === id)) return;
+  selectedId = id; world?.select(id);
+  if (viewMode === "machine") world?.focusMachine(id);
+  renderViewControls(); renderRows(); renderDetail();
+}
 function stopAuto() { if (autoTimer) clearInterval(autoTimer); autoTimer = null; $("autoButton").textContent = "▶ 自動播放"; $("autoButton").setAttribute("aria-pressed", "false"); }
 
-try { world = createMonitorWorld($("plantCanvas"), { onSelect: selectMachine }); }
-catch (error) { $("plantCanvas").hidden = true; $("sceneFallback").hidden = false; console.warn("3D unavailable", error); }
+try { world = createMonitorWorld($("plantCanvas"), {
+  onSelect: selectMachine,
+  onFocus: (id) => { selectedId = id; viewMode = "machine"; renderViewControls(); renderDetail(); }
+}); }
+catch (error) {
+  $("plantCanvas").hidden = true; $("sceneFallback").hidden = false;
+  $("overviewButton").disabled = $("focusButton").disabled = true;
+  console.warn("3D unavailable", error);
+}
 for (const zone of ZONES) $("zoneFilter").add(new Option(zone.name, zone.id));
 $("injectButton").addEventListener("click", () => {
   try {
@@ -182,9 +208,9 @@ $("autoButton").addEventListener("click", () => {
   else { autoTimer = setInterval(() => commit(advancePlant(state)), 1100); $("autoButton").textContent = "Ⅱ 暫停播放"; $("autoButton").setAttribute("aria-pressed", "true"); }
 });
 $("resetButton").addEventListener("click", () => {
-  stopAuto(); state = createPlant(); selectedId = "CMP-01"; zoneFilter = statusFilter = "all"; search = "";
+  stopAuto(); state = createPlant(); selectedId = "AOI-01"; zoneFilter = statusFilter = "all"; search = "";
   $("zoneFilter").value = $("statusFilter").value = "all"; $("machineSearch").value = "";
-  world?.focusZone(null); persist(); render();
+  focusZone(null); persist(); render();
 });
 $("diagnoseButton").addEventListener("click", () => { try { commit(diagnosePlant(state, selectedId)); } catch (error) { reportError(error); } });
 $("stopButton").addEventListener("click", () => { try { const { machine } = current(); commit(setMachineStopped(state, selectedId, !machine.manualStop)); } catch (error) { reportError(error); } });
@@ -196,7 +222,12 @@ $("hintButton").addEventListener("click", () => {
   $("incidentDescription").textContent = hints[state.incident.type];
 });
 $("machineSearch").addEventListener("input", (event) => { search = event.target.value; renderRows(); });
-$("zoneFilter").addEventListener("change", (event) => { zoneFilter = event.target.value; world?.focusZone(zoneFilter === "all" ? null : zoneFilter); renderZones(); renderRows(); });
+$("zoneFilter").addEventListener("change", (event) => { zoneFilter = event.target.value; focusZone(zoneFilter === "all" ? null : zoneFilter); renderZones(); renderRows(); });
+$("overviewButton").addEventListener("click", () => {
+  zoneFilter = "all"; $("zoneFilter").value = "all";
+  focusZone(null); renderZones(); renderRows();
+});
+$("focusButton").addEventListener("click", () => { viewMode = "machine"; world?.focusMachine(selectedId); renderViewControls(); });
 $("statusFilter").addEventListener("change", (event) => { statusFilter = event.target.value; renderRows(); });
 document.querySelectorAll("[data-signal]").forEach((button) => button.addEventListener("click", () => {
   signal = button.dataset.signal;

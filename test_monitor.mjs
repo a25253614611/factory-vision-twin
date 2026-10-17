@@ -2,11 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createPlant, advancePlant, injectIncident, diagnosePlant, setMachineStopped,
   plantSummary, zoneStatus, EQUIPMENT, ZONES } from "./monitor-core.js";
+import { MODEL_PARTS } from "./machine-catalog.js";
 
 test("whole fab starts with 24 machines in six zones and repeatable signals", () => {
   const first = createPlant(), second = createPlant();
   assert.equal(EQUIPMENT.length, 24);
   assert.equal(ZONES.length, 6);
+  assert.deepEqual(new Set(Object.keys(MODEL_PARTS)), new Set(EQUIPMENT.map((machine) => machine.type)));
   assert.deepEqual(first.machines, second.machines);
   assert.equal(plantSummary(first).alertCount, 0);
   assert.notEqual(advancePlant(first).machines[0].temp, first.machines[0].temp);
